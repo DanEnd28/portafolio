@@ -30,10 +30,19 @@ npm run preview   # sirve el build de producción en local para probarlo
 
 Casi todo el contenido editable vive en **`src/data/content.js`**:
 
+- `PROFILE` — nombre, roles (automatización + frontend), tagline, intro, ruta de la foto, disponibilidad y ubicación.
 - `LINKS` — email, LinkedIn, GitHub, Upwork y WhatsApp (reemplaza los placeholders `tu-usuario`).
+- `STATS` — las 3 métricas bajo "Sobre mí".
 - `WHAT_I_DO` — las 4 tarjetas de servicios.
 - `PROJECTS` — los 4 proyectos (título, descripción, stack y enlace al repo).
-- `TECH_STACK` — los chips de tecnologías.
+
+**Tu foto:** coloca tu imagen en `public/foto-danny.jpg` y cambia `PROFILE.photo`
+en `content.js` a `'/foto-danny.jpg'`. Se muestra bien cuadrada (~1:1).
+
+**Logos del stack:** son iconos de marca de `react-icons` (se empaquetan en el
+build, sin llamadas externas). El mapa de marca → logo/color está en
+`src/components/BrandIcons.jsx`; GoHighLevel usa un logo custom porque no existe en
+la librería.
 
 **Imágenes de proyectos:** en `src/components/Projects.jsx` hay un placeholder
 `[ imagen / gif por completar ]`. Sustitúyelo por una captura o GIF de cada proyecto.

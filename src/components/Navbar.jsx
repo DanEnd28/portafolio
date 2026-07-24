@@ -29,7 +29,7 @@ export default function Navbar({ theme, onToggleTheme }) {
     >
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <a href="#top" className="font-mono text-sm font-bold tracking-tight">
-          <span className="text-accent-soft dark:text-accent">&gt;_</span> danny.endara
+          <span className="text-accent-soft dark:text-accent">&gt;_</span> DanEnd28
         </a>
 
         <div className="hidden items-center gap-6 md:flex">
