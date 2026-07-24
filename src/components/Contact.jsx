@@ -77,21 +77,49 @@ export default function Contact() {
             <label htmlFor="nombre" className="mb-1 block font-mono text-xs text-slate-500">nombre</label>
             <input
               id="nombre" name="nombre" type="text" required
-              className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent-soft dark:border-white/15 dark:focus:border-accent"
+              className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent2 focus:ring-1 focus:ring-accent2 dark:border-white/15 dark:focus:border-accent2"
             />
           </div>
           <div>
             <label htmlFor="email" className="mb-1 block font-mono text-xs text-slate-500">email</label>
             <input
               id="email" name="email" type="email" required
-              className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent-soft dark:border-white/15 dark:focus:border-accent"
+              className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent2 focus:ring-1 focus:ring-accent2 dark:border-white/15 dark:focus:border-accent2"
             />
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="empresa" className="mb-1 block font-mono text-xs text-slate-500">empresa <span className="opacity-50">(opcional)</span></label>
+              <input
+                id="empresa" name="empresa" type="text"
+                className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent2 focus:ring-1 focus:ring-accent2 dark:border-white/15 dark:focus:border-accent2"
+              />
+            </div>
+            <div>
+              <label htmlFor="telefono" className="mb-1 block font-mono text-xs text-slate-500">teléfono <span className="opacity-50">(opcional)</span></label>
+              <input
+                id="telefono" name="telefono" type="tel"
+                className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent2 focus:ring-1 focus:ring-accent2 dark:border-white/15 dark:focus:border-accent2"
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="tipo" className="mb-1 block font-mono text-xs text-slate-500">tipo de consulta</label>
+            <select
+              id="tipo" name="tipo" defaultValue="Proyecto freelance"
+              className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent2 focus:ring-1 focus:ring-accent2 dark:border-white/15 dark:bg-[#0a0f1a] dark:focus:border-accent2"
+            >
+              <option>Proyecto freelance</option>
+              <option>Vacante / empleo</option>
+              <option>Consultoría / asesoría</option>
+              <option>Otro</option>
+            </select>
           </div>
           <div>
             <label htmlFor="mensaje" className="mb-1 block font-mono text-xs text-slate-500">mensaje</label>
             <textarea
               id="mensaje" name="mensaje" rows="4" required
-              className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent-soft dark:border-white/15 dark:focus:border-accent"
+              className="w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent2 focus:ring-1 focus:ring-accent2 dark:border-white/15 dark:focus:border-accent2"
             />
           </div>
 
