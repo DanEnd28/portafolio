@@ -45,7 +45,9 @@
         "httpMethod": "POST",
         "path": "contacto-portafolio",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {
+          "allowedOrigins": "*"
+        }
       },
       "id": "c-webhook",
       "name": "Recibir Formulario",
