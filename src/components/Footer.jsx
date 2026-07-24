@@ -12,7 +12,7 @@ export default function Footer() {
               <span className="text-accent-soft dark:text-accent">&gt;_</span> {PROFILE.name}
             </p>
             <p className="mt-1 text-xs text-slate-500">
-              Automatización & IA · Frontend · Sistemas — disponible para nuevos proyectos.
+              Automatización & IA · Frontend · Sistemas — abierto a nuevas oportunidades.
             </p>
           </div>
 

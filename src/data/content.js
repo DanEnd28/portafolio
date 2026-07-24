@@ -39,6 +39,17 @@ export const SOCIALS = [
   // { key: 'instagram', label: 'Instagram', value: '@tu_usuario', href: 'https://instagram.com/tu_usuario', icon: 'instagram', color: '#E4405F' },
 ]
 
+// ── Asistente de chat (widget flotante) ─────────────────────────
+// Se conecta a un webhook de n8n (variable de entorno VITE_N8N_CHAT_WEBHOOK_URL).
+// Si "enabled" es false o no hay webhook, el widget no aparece.
+export const CHAT = {
+  enabled: true,
+  title: 'Asistente de Danny',
+  subtitle: 'Pregúntame lo que quieras sobre Danny',
+  welcome: '¡Hola! 👋 Soy el asistente personal de Danny. Puedo contarte sobre su experiencia, proyectos, stack y disponibilidad. ¿Qué te gustaría saber?',
+  placeholder: 'Escribe tu mensaje…',
+}
+
 // ── Secciones visibles (ACTIVA / DESACTIVA) ─────────────────────
 // Pon en false una sección que aún no quieras mostrar.
 export const SECTIONS = {
