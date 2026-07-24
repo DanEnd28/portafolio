@@ -1,0 +1,199 @@
+{
+  "name": "Contacto Portafolio Danny",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 📩 FASE 1 — Entrada\nWebhook del **formulario de contacto** del portafolio.\n\n**Body esperado:**\n`{ nombre, email, empresa, telefono, tipo, mensaje }`\n\n**Config:** POST · path `contacto-portafolio` · Response = Respond node.",
+        "height": 260,
+        "width": 320,
+        "color": 4
+      },
+      "id": "note-c1",
+      "name": "Nota 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-40, -40]
+    },
+    {
+      "parameters": {
+        "content": "## 📊📧 FASE 2-4 — Registro y avisos\n1. **Registrar en Sheets:** pestaña `Contactos` (Fecha | Nombre | Email | Empresa | Telefono | Tipo | Mensaje).\n2. **Notificar a Danny:** correo con todos los datos del lead.\n3. **Auto-responder al visitante:** correo \"en breve te contacto\".\n\n⚠️ Reemplaza `REEMPLAZAR_ID_SHEET` y el correo de Danny si cambia.",
+        "height": 280,
+        "width": 360,
+        "color": 6
+      },
+      "id": "note-c2",
+      "name": "Nota 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [640, -60]
+    },
+    {
+      "parameters": {
+        "content": "## 📱 FASE 5 — WhatsApp (OPCIONAL)\nNodo **desactivado** por defecto. Avisa al visitante por WhatsApp usando la **Meta Cloud API**.\n\nPara activarlo:\n1. Consigue `PHONE_NUMBER_ID` y un token permanente en Meta.\n2. Reemplaza `REEMPLAZAR_PHONE_NUMBER_ID` y `REEMPLAZAR_TOKEN_META`.\n3. Habilita el nodo (click derecho → Enable).\n\n⚠️ El número debe tener plantilla aprobada o estar dentro de la ventana de 24h.",
+        "height": 300,
+        "width": 340,
+        "color": 3
+      },
+      "id": "note-c3",
+      "name": "Nota 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1100, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "contacto-portafolio",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "c-webhook",
+      "name": "Recibir Formulario",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [40, 300],
+      "webhookId": "contacto-portafolio"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normaliza el body del formulario de contacto.\nconst b = $input.first().json.body || $input.first().json || {};\nconst nombre = (b.nombre || '').toString().trim();\nconst email = (b.email || '').toString().trim();\nconst empresa = (b.empresa || '').toString().trim() || '—';\nconst telefono = (b.telefono || '').toString().trim() || '—';\nconst tipo = (b.tipo || 'Consulta').toString().trim();\nconst mensaje = (b.mensaje || '').toString().trim();\n\nreturn [{ json: { nombre, email, empresa, telefono, tipo, mensaje } }];"
+      },
+      "id": "c-normalizar",
+      "name": "Normalizar Contacto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [280, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REEMPLAZAR_ID_SHEET",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Contactos",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha": "={{ $now.toISO() }}",
+            "Nombre": "={{ $json.nombre }}",
+            "Email": "={{ $json.email }}",
+            "Empresa": "={{ $json.empresa }}",
+            "Telefono": "={{ $json.telefono }}",
+            "Tipo": "={{ $json.tipo }}",
+            "Mensaje": "={{ $json.mensaje }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "c-sheets",
+      "name": "Registrar en Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [520, 300],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "dannyendara28@gmail.com",
+        "subject": "={{ 'Nuevo contacto (' + $('Normalizar Contacto').item.json.tipo + '): ' + $('Normalizar Contacto').item.json.nombre }}",
+        "emailType": "text",
+        "message": "={{ 'Nuevo mensaje desde el portafolio:\\n\\nNombre: ' + $('Normalizar Contacto').item.json.nombre + '\\nEmail: ' + $('Normalizar Contacto').item.json.email + '\\nEmpresa: ' + $('Normalizar Contacto').item.json.empresa + '\\nTeléfono: ' + $('Normalizar Contacto').item.json.telefono + '\\nTipo: ' + $('Normalizar Contacto').item.json.tipo + '\\n\\nMensaje:\\n' + $('Normalizar Contacto').item.json.mensaje }}",
+        "options": {}
+      },
+      "id": "c-gmail-danny",
+      "name": "Notificar a Danny",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [760, 300],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Normalizar Contacto').item.json.email }}",
+        "subject": "={{ 'Gracias por escribir, ' + $('Normalizar Contacto').item.json.nombre }}",
+        "emailType": "text",
+        "message": "={{ 'Hola ' + $('Normalizar Contacto').item.json.nombre + ',\\n\\n¡Gracias por tu mensaje! Ya lo recibí y en breve te contacto por este correo o al número que dejaste (' + $('Normalizar Contacto').item.json.telefono + ').\\n\\nSaludos,\\nDanny Endara\\nAI Automation Engineer · Frontend · Sistemas\\nWhatsApp: +58 422-4543543' }}",
+        "options": {}
+      },
+      "id": "c-gmail-visitante",
+      "name": "Auto-responder al Visitante",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1000, 300],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v20.0/REEMPLAZAR_PHONE_NUMBER_ID/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer REEMPLAZAR_TOKEN_META" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ messaging_product: 'whatsapp', to: $('Normalizar Contacto').item.json.telefono, type: 'text', text: { body: 'Hola ' + $('Normalizar Contacto').item.json.nombre + ', recibí tu mensaje en el portafolio de Danny. En breve te contacta. ¡Gracias!' } }) }}",
+        "options": {}
+      },
+      "id": "c-whatsapp",
+      "name": "Avisar por WhatsApp (opcional)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1240, 300],
+      "disabled": true,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true, \"message\": \"¡Gracias! Te contacto en breve.\" } }}",
+        "options": {}
+      },
+      "id": "c-respond",
+      "name": "Responder al Formulario",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1480, 300]
+    }
+  ],
+  "connections": {
+    "Recibir Formulario": {
+      "main": [[{ "node": "Normalizar Contacto", "type": "main", "index": 0 }]]
+    },
+    "Normalizar Contacto": {
+      "main": [[{ "node": "Registrar en Google Sheets", "type": "main", "index": 0 }]]
+    },
+    "Registrar en Google Sheets": {
+      "main": [[{ "node": "Notificar a Danny", "type": "main", "index": 0 }]]
+    },
+    "Notificar a Danny": {
+      "main": [[{ "node": "Auto-responder al Visitante", "type": "main", "index": 0 }]]
+    },
+    "Auto-responder al Visitante": {
+      "main": [[{ "node": "Avisar por WhatsApp (opcional)", "type": "main", "index": 0 }]]
+    },
+    "Avisar por WhatsApp (opcional)": {
+      "main": [[{ "node": "Responder al Formulario", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

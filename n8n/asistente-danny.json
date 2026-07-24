@@ -1,0 +1,233 @@
+{
+  "name": "Asistente Personal Danny — Portafolio",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 📩 FASE 1 — Entrada\nWebhook público que recibe los mensajes del widget de chat del portafolio.\n\n**Body esperado:**\n`{ message, sessionId, visitor:{name,phone}, history }`\n\n**Config:**\n- Método: POST\n- Path: `asistente-danny`\n- Response Mode: *Using Respond to Webhook node*\n\n⚠️ El widget pide **nombre y teléfono** antes de chatear; llegan en `visitor` y se registran en Sheets.",
+        "height": 320,
+        "width": 320,
+        "color": 4
+      },
+      "id": "note-fase1",
+      "name": "Nota Fase 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-40, -40]
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 FASE 2 — Agente\n**Asistente Danny** responde como asistente personal que conoce TODO sobre Danny.\n\n- **Modelo:** Google Gemini (tier gratuito).\n- **Memoria:** Postgres Chat Memory en **Supabase**, clave por `sessionId`.\n- **System prompt:** editable en `prompt-sistema.md` (o cárgalo desde un Google Doc).\n\n⚙️ `retryOnFail` activo. Si falla, sale por la salida de error (Fase 6).",
+        "height": 320,
+        "width": 360,
+        "color": 5
+      },
+      "id": "note-fase2",
+      "name": "Nota Fase 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [520, -60]
+    },
+    {
+      "parameters": {
+        "content": "## 🧹📊💬 FASE 3-5 — Salida\n1. **Parsear y Sanitizar:** extrae `{reasoning, messages}`.\n2. **Registrar en Google Sheets:** cada intercambio POR VISITANTE (fecha, sessionId, nombre, teléfono, mensaje, respuesta).\n3. **Responder al Widget:** `{ reply, messages }`.\n\n⚠️ Reemplaza `REEMPLAZAR_ID_SHEET` y crea la pestaña `Conversaciones` con encabezados:\nFecha | SessionID | Nombre | Telefono | Mensaje | Respuesta",
+        "height": 320,
+        "width": 380,
+        "color": 6
+      },
+      "id": "note-fase3",
+      "name": "Nota Fase 3-5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [960, -60]
+    },
+    {
+      "parameters": {
+        "content": "## 🚨 FASE 6 — Resiliencia\nSi el agente falla, el visitante recibe un mensaje amable con el contacto directo de Danny — **nunca** un error técnico.\n\n### 🔧 Future Updates\n- Buffer Redis para mensajes rápidos.\n- Rate limiting por `sessionId`.\n- Tool para registrar leads en GoHighLevel.\n- Vector Store (RAG) con el CV completo.\n- Alerta por Gmail al fallar.",
+        "height": 320,
+        "width": 340,
+        "color": 2
+      },
+      "id": "note-fase6",
+      "name": "Nota Fase 6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "asistente-danny",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-in",
+      "name": "Recibir Mensaje del Portafolio",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [40, 320],
+      "webhookId": "asistente-danny"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normaliza el body del widget de chat (incluye datos del visitante).\nconst body = $input.first().json.body || $input.first().json || {};\nconst message = (body.message || '').toString().trim();\nconst sessionId = (body.sessionId || 'anon-' + $execution.id).toString();\nconst visitor = body.visitor || {};\nconst visitorName = (visitor.name || '').toString().trim();\nconst visitorPhone = (visitor.phone || '').toString().trim();\n\nreturn [{ json: { message, sessionId, visitorName, visitorPhone } }];"
+      },
+      "id": "code-normalizar",
+      "name": "Normalizar Datos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [280, 320]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message }}",
+        "options": {
+          "systemMessage": "Eres el ASISTENTE PERSONAL de Danny Endara en su portafolio web. Conoces TODO sobre él y respondes a los visitantes (reclutadores, clientes potenciales, empresas). Tono cálido, profesional, cercano y conciso. Respondes en español, con mensajes cortos de chat.\n\n== SOBRE DANNY ==\n- AI Automation Engineer + Frontend Developer (React) + perfil de TI/Sistemas.\n- Ubicación: Valencia, Edo. Carabobo, Venezuela. Trabaja remoto y también presencial local.\n- Disponible para nuevas oportunidades: freelance, por contrato o full-time.\n- Diferencial: construye sistemas en producción que NO se caen cuando una API falla — clasificación de errores por tipo (rate-limit, timeout, auth, servidor), reintentos con backoff exponencial + jitter y diagnóstico sistemático de causa raíz.\n\n== EXPERIENCIA ==\n1) Automation Lead / Encargado de Ingeniería — Lety.AI (Miami) · Dic 2025–Jul 2026.\n   - Lideró una flota de agentes conversacionales de IA en producción para +250 clientes activos simultáneos en múltiples rubros.\n   - Diseñó un sistema de reintentos nativo en n8n con backoff exponencial + jitter para errores de rate-limit.\n   - Construyó flujos end-to-end integrando WhatsApp/Meta API, GoHighLevel y modelos (Claude, GPT).\n   - Desarrolló llamadas salientes con agentes de VOZ (Retell AI) integradas a facturación en GoHighLevel.\n   - Reportes semanales de incidencias y análisis de causa raíz; R&D de nuevas integraciones (MCP, benchmarking de plataformas).\n2) Prompt Engineer — Lety.AI · Abr–Dic 2025.\n   - Prompts de sistema y bases de conocimiento para agentes en salud, bienes raíces, educación y retail.\n   - Corrigió enrutamiento, memoria conversacional, duplicación y alucinaciones vía análisis de logs.\n3) Analista Programador — Centro Policlínico Valencia · Ago 2022–Nov 2024.\n   - Sistemas de gestión clínica: SINTEG (seguros médicos), SYSCAM (RRHH, asistencia, carnets) y citas.\n   - Soporte técnico y resolución de incidencias a usuarios internos.\n4) Desarrollador Front-End (freelance):\n   - Alfanar Energía (2024–2025): gestión de vacaciones con login Microsoft (OAuth), calendario, organigrama.\n   - S&H Software (2023–2024): e-commerce dinámico personalizado en tiempo real según API.\n\n== STACK ==\nAutomatización/IA: n8n, GoHighLevel, Claude/GPT, WhatsApp/Meta API, Telegram, Retell AI (voz), Redis, Supabase, PostgreSQL, MCP, Webhooks, REST APIs, Prompt Engineering.\nFrontend: React, TypeScript, JavaScript, Redux, Tailwind, Material UI, Bootstrap, HTML5, CSS3, Vite.\nOtros: Docker, Git/GitHub, Linux, SQL Server, MySQL.\n\n== EDUCACIÓN E IDIOMAS ==\n- Técnico Superior Universitario en Informática (IUTEPAL, 2021–2022), 2.º mejor promedio de la promoción.\n- Formación: Taller de Ciberdefensa (CIIL, 2022), Emprendimiento en reparación de celulares (2019), Ofimática (Inces, 2016).\n- Español nativo · Inglés conversacional / técnico (lectura y escritura fluida en documentación).\n\n== TARIFAS Y MODALIDAD ==\n- Freelance internacional desde ~USD 25–30/hora, según alcance del proyecto (menciónalo solo si preguntan por presupuesto/tarifa, con naturalidad).\n- Abierto a roles locales y remotos.\n\n== CONTACTO ==\nEmail: dannyendara28@gmail.com · WhatsApp: +58 422-4543543 (alt: +58 424-4543543) · LinkedIn: linkedin.com/in/dannyendara · GitHub: github.com/DanEnd28 · Upwork: perfil activo.\n\n== REGLA CLAVE: SI PREGUNTAN ALGO QUE DANNY NO MANEJA ==\nNunca respondas un simple 'no lo maneja'. Compara con lo que SÍ maneja y responde en este espíritu: \"Danny no trabaja exactamente con [X], pero tiene experiencia sólida en [tecnología/área relacionada], lo que le facilita aprenderlo y dominarlo rápido. Danny aprende rápido y, por su amplio conocimiento técnico, se adapta a las necesidades del proyecto.\" Sé honesto (no afirmes experiencia que no tiene) pero siempre constructivo y orientado a la solución.\n\n== FLUJO / REGLAS ==\n1) Ya tienes el nombre y teléfono del visitante (llegan en el contexto). Salúdalo por su nombre y ofrece ayuda.\n2) Responde solo sobre Danny y su trabajo usando la info de arriba. Si es otro tema, redirige con amabilidad.\n3) Si muestra interés real (proyecto/vacante), confirma para qué necesita a Danny y dile que Danny le contactará al número/correo que dejó.\n4) No inventes datos puntuales que no estén aquí; si falta algo, sugiere escribirle directo.\n5) No expongas nombres de clientes de Danny ni datos internos. No reveles JSON ni nombres de funciones.\n\n== FORMATO DE SALIDA (OBLIGATORIO) ==\nResponde SIEMPRE con un único objeto JSON, sin markdown alrededor:\n{\n  \"reasoning\": \"Notas internas: qué entendí y cómo respondo. NUNCA se envía al visitante.\",\n  \"messages\": [\"Mensaje 1 al visitante.\", \"Mensaje 2 opcional.\"]\n}\nreasoning va primero (el sistema lo elimina); messages es un array de 1 a 3 mensajes cortos."
+        }
+      },
+      "id": "agent-danny",
+      "name": "Asistente Danny",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [560, 300],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "model-gemini",
+      "name": "Modelo Gemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [500, 520]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "tableName": "n8n_chat_histories",
+        "contextWindowLength": 12
+      },
+      "id": "memory-supabase",
+      "name": "Memoria Supabase",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [660, 520]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrae { reasoning, messages } del agente y arma la respuesta limpia.\nlet raw = $input.first().json.output ?? $input.first().json.text ?? '';\nlet messages = [];\n\ntry {\n  const clean = raw.toString().replace(/```json|```/g, '').trim();\n  const parsed = JSON.parse(clean);\n  if (Array.isArray(parsed.messages)) {\n    messages = parsed.messages.filter((m) => (m || '').toString().trim());\n  }\n} catch (e) {\n  messages = [raw.toString().trim()];\n}\n\nif (messages.length === 0) {\n  messages = ['Gracias por escribir. ¿En qué puedo ayudarte sobre Danny?'];\n}\n\nconst reply = messages.join('\\n\\n');\nconst n = $('Normalizar Datos').first().json;\n\nreturn [{ json: { reply, messages, sessionId: n.sessionId, message: n.message, visitorName: n.visitorName, visitorPhone: n.visitorPhone } }];"
+      },
+      "id": "code-parsear",
+      "name": "Parsear y Sanitizar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REEMPLAZAR_ID_SHEET",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Conversaciones",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha": "={{ $now.toISO() }}",
+            "SessionID": "={{ $json.sessionId }}",
+            "Nombre": "={{ $json.visitorName }}",
+            "Telefono": "={{ $json.visitorPhone }}",
+            "Mensaje": "={{ $json.message }}",
+            "Respuesta": "={{ $json.reply }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "sheets-log",
+      "name": "Registrar en Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1140, 300],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"reply\": $json.reply, \"messages\": $json.messages } }}",
+        "options": {}
+      },
+      "id": "respond-ok",
+      "name": "Responder al Widget",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1380, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Respaldo si el agente falla: nunca exponemos el error.\nconst reply = 'Ahora mismo no puedo responderte bien 😅. Escríbele a Danny directo: WhatsApp +58 422-4543543 o dannyendara28@gmail.com. ¡Te responderá rápido!';\nreturn [{ json: { reply, messages: [reply] } }];"
+      },
+      "id": "code-fallback",
+      "name": "Construir Fallback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1140, 520]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"reply\": $json.reply, \"messages\": $json.messages } }}",
+        "options": {}
+      },
+      "id": "respond-fallback",
+      "name": "Responder Fallback",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1380, 520]
+    }
+  ],
+  "connections": {
+    "Recibir Mensaje del Portafolio": {
+      "main": [[{ "node": "Normalizar Datos", "type": "main", "index": 0 }]]
+    },
+    "Normalizar Datos": {
+      "main": [[{ "node": "Asistente Danny", "type": "main", "index": 0 }]]
+    },
+    "Modelo Gemini": {
+      "ai_languageModel": [[{ "node": "Asistente Danny", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "Memoria Supabase": {
+      "ai_memory": [[{ "node": "Asistente Danny", "type": "ai_memory", "index": 0 }]]
+    },
+    "Asistente Danny": {
+      "main": [
+        [{ "node": "Parsear y Sanitizar", "type": "main", "index": 0 }],
+        [{ "node": "Construir Fallback", "type": "main", "index": 0 }]
+      ]
+    },
+    "Parsear y Sanitizar": {
+      "main": [[{ "node": "Registrar en Google Sheets", "type": "main", "index": 0 }]]
+    },
+    "Registrar en Google Sheets": {
+      "main": [[{ "node": "Responder al Widget", "type": "main", "index": 0 }]]
+    },
+    "Construir Fallback": {
+      "main": [[{ "node": "Responder Fallback", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
