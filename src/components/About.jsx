@@ -1,6 +1,6 @@
 import Section from './Section'
 import ProfileTabs from './ProfileTabs'
-import { STATS, PROFILES } from '../data/content'
+import { PROFILES } from '../data/content'
 
 export default function About({ profile, onChangeProfile }) {
   const p = PROFILES[profile]
@@ -29,20 +29,22 @@ export default function About({ profile, onChangeProfile }) {
         </div>
       </div>
 
-      {/* Métricas */}
-      <div className="mt-10 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
-        {STATS.map((s) => (
-          <div
-            key={s.label}
-            className="rounded-xl border border-slate-200 bg-white p-5 text-center dark:border-white/10 dark:bg-white/[0.03]"
-          >
-            <div className="font-mono text-2xl font-bold text-accent-soft dark:text-accent sm:text-3xl">
-              {s.value}
+      {/* Métricas (solo si el perfil las define, ej. IA & Automatización) */}
+      {p.stats?.length > 0 && (
+        <div className="mt-10 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
+          {p.stats.map((s) => (
+            <div
+              key={s.label}
+              className="rounded-xl border border-slate-200 bg-white p-5 text-center dark:border-white/10 dark:bg-white/[0.03]"
+            >
+              <div className="font-mono text-2xl font-bold text-accent-soft dark:text-accent sm:text-3xl">
+                {s.value}
+              </div>
+              <div className="mt-1 text-xs leading-snug text-slate-500">{s.label}</div>
             </div>
-            <div className="mt-1 text-xs leading-snug text-slate-500">{s.label}</div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </Section>
   )
 }
