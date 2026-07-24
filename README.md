@@ -30,11 +30,19 @@ npm run preview   # sirve el build de producción en local para probarlo
 
 Casi todo el contenido editable vive en **`src/data/content.js`**:
 
-- `PROFILE` — nombre, roles (automatización + frontend), tagline, intro, ruta de la foto, disponibilidad y ubicación.
-- `LINKS` — email, LinkedIn, GitHub, Upwork y WhatsApp (reemplaza los placeholders `tu-usuario`).
+- `PROFILE` — nombre, roles (automatización + frontend), tagline, intro, ruta de la foto, ruta del CV, disponibilidad y ubicación.
+- `LINKS` — email, LinkedIn, GitHub, Upwork y WhatsApp.
 - `STATS` — las 3 métricas bajo "Sobre mí".
+- `INDUSTRIES` — los rubros que se muestran como chips.
 - `WHAT_I_DO` — las 4 tarjetas de servicios.
-- `PROJECTS` — los 4 proyectos (título, descripción, stack y enlace al repo).
+- `EXPERIENCE` — la experiencia laboral (timeline).
+- `PROJECTS` — proyectos de automatización / IA (con enlace al repo).
+- `FRONTEND_PROJECTS` — proyectos frontend profesionales.
+- `EDUCATION`, `CERTS`, `LANGUAGES` — formación e idiomas.
+
+**Tu CV descargable:** el botón "Descargar CV" del hero apunta a `PROFILE.cv`.
+Ya está `public/CV-Danny-Endara.docx`; para ofrecer un PDF, expórtalo, colócalo en
+`public/CV-Danny-Endara.pdf` y cambia `PROFILE.cv` a esa ruta.
 
 **Tu foto:** coloca tu imagen en `public/foto-danny.jpg` y cambia `PROFILE.photo`
 en `content.js` a `'/foto-danny.jpg'`. Se muestra bien cuadrada (~1:1).
@@ -90,8 +98,12 @@ portafolio-danny/
 │   │   ├── Section.jsx
 │   │   ├── About.jsx
 │   │   ├── WhatIDo.jsx
+│   │   ├── Experience.jsx
 │   │   ├── Projects.jsx
+│   │   ├── FrontendProjects.jsx
+│   │   ├── BrandIcons.jsx
 │   │   ├── TechStack.jsx
+│   │   ├── Education.jsx
 │   │   ├── Contact.jsx
 │   │   └── Footer.jsx
 │   ├── data/

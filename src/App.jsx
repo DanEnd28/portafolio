@@ -3,8 +3,11 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
 import WhatIDo from './components/WhatIDo'
+import Experience from './components/Experience'
 import Projects from './components/Projects'
+import FrontendProjects from './components/FrontendProjects'
 import TechStack from './components/TechStack'
+import Education from './components/Education'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
@@ -32,8 +35,11 @@ export default function App() {
         <Hero />
         <About />
         <WhatIDo />
+        <Experience />
         <Projects />
+        <FrontendProjects />
         <TechStack />
+        <Education />
         <Contact />
       </main>
       <Footer />

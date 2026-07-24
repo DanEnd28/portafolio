@@ -11,13 +11,16 @@ export const PROFILE = {
     'Construyo agentes de IA y automatizaciones en producción que no se caen cuando una API falla — y las interfaces en React que las hacen visibles.',
   // Tu foto ya está en public/foto-danny.jpg
   photo: '/foto-danny.jpg',
+  // CV descargable. Ya está el .docx en public/; para un PDF, expórtalo y cambia a
+  // '/CV-Danny-Endara.pdf' (colocando el archivo en public/).
+  cv: '/CV-Danny-Endara.docx',
   available: true, // muestra el indicador "Disponible para proyectos"
-  location: 'Valencia, Venezuela · Remoto', // TODO: ajusta si quieres
+  location: 'Valencia, Venezuela · Remoto',
 }
 
 export const LINKS = {
-  email: 'dannyendara28@gmail.com', // TODO: confirma el email que prefieres exponer
-  linkedin: 'https://linkedin.com/in/tu-usuario', // TODO: pega la URL real de tu LinkedIn
+  email: 'dannyendara28@gmail.com',
+  linkedin: 'https://linkedin.com/in/dannyendara',
   github: 'https://github.com/DanEnd28',
   upwork: 'https://www.upwork.com/freelancers/tu-usuario', // TODO: pega la URL real de Upwork
   whatsapp: 'https://wa.me/584244543543', // +58 424-4543543
@@ -49,8 +52,8 @@ export const WHAT_I_DO = [
   {
     icon: '🤖',
     title: 'Agentes conversacionales de IA',
-    desc: 'Bots para WhatsApp, Telegram e Instagram con memoria, tool calling y bases de conocimiento que no alucinan tus datos, más escalamiento a asesor humano.',
-    tag: 'WhatsApp · Telegram · Instagram',
+    desc: 'Bots para WhatsApp, Telegram e Instagram (y voz con Retell AI) con memoria, tool calling y bases de conocimiento que no alucinan tus datos, más escalamiento a asesor humano.',
+    tag: 'WhatsApp · Telegram · Voz',
   },
   {
     icon: '🔌',
@@ -66,6 +69,47 @@ export const WHAT_I_DO = [
   },
 ]
 
+// Experiencia laboral (timeline). "current: true" resalta el rol actual.
+export const EXPERIENCE = [
+  {
+    role: 'Automation Lead / Encargado de Ingeniería',
+    company: 'Lety.AI · Miami',
+    period: 'Dic. 2025 – Jul. 2026',
+    current: true,
+    desc: 'Lideré una flota de agentes conversacionales de IA en producción para más de 250 clientes activos simultáneos. Diseñé el sistema de reintentos con backoff exponencial + jitter, construí flujos end-to-end en n8n (WhatsApp/Meta, GoHighLevel, Claude/GPT) y un sistema de llamadas salientes con agentes de voz (Retell AI) integrado a facturación.',
+    tags: ['n8n', 'GoHighLevel', 'Retell AI', 'Claude/GPT'],
+  },
+  {
+    role: 'Prompt Engineer',
+    company: 'Lety.AI · Miami',
+    period: 'Abr. 2025 – Dic. 2025',
+    desc: 'Diseñé, versioné y optimicé prompts de sistema y bases de conocimiento para agentes en salud, bienes raíces, educación y retail. Diagnostiqué y corregí fallos de enrutamiento, memoria conversacional y alucinaciones mediante análisis de logs.',
+    tags: ['Prompt Engineering', 'Bases de conocimiento', 'n8n'],
+  },
+  {
+    role: 'Analista Programador',
+    company: 'Centro Policlínico Valencia',
+    period: 'Ago. 2022 – Nov. 2024',
+    desc: 'Desarrollé sistemas para modernizar la gestión clínica: control de asistencia de RRHH, gestión de seguros médicos y programación de citas. Soporte técnico continuo y resolución de incidencias a usuarios internos.',
+    tags: ['JavaScript', 'SQL Server', 'Soporte TI'],
+  },
+  {
+    role: 'Desarrollador Front-End',
+    company: 'Alfanar Energía · freelance',
+    period: '2024 – 2025',
+    desc: 'Interfaz de un módulo de RRHH para gestión de solicitudes de vacaciones y notificaciones en tiempo real, con datos extraídos de API.',
+    tags: ['React', 'API REST', 'Tailwind'],
+  },
+  {
+    role: 'Desarrollador Front-End',
+    company: 'S&H Software · freelance',
+    period: '2023 – 2024',
+    desc: 'E-commerce dinámico y personalizado, adaptado en tiempo real según datos de API, con módulo de compras y cálculo automático de precios.',
+    tags: ['React', 'JavaScript', 'API REST'],
+  },
+]
+
+// Proyectos de automatización / IA (demos de portafolio).
 export const PROJECTS = [
   {
     title: 'Agente de IA en WhatsApp y Telegram con tools',
@@ -91,4 +135,47 @@ export const PROJECTS = [
     stack: ['n8n', 'Supabase', 'React', 'LLM'],
     repo: 'https://github.com/DanEnd28/agente-supabase-dashboard', // TODO
   },
+]
+
+// Proyectos frontend reales (trabajo profesional / freelance).
+export const FRONTEND_PROJECTS = [
+  {
+    title: 'E-commerce dinámico',
+    company: 'S&H Software',
+    desc: 'Tienda en línea personalizada que se adapta en tiempo real según datos de la API de la empresa, con módulo de compras y cálculo automático de precios.',
+    stack: ['React', 'JavaScript', 'API REST', 'Tailwind'],
+  },
+  {
+    title: 'Módulo de RRHH · Gestión de vacaciones',
+    company: 'Alfanar Energía',
+    desc: 'Interfaz para la solicitud y aprobación de vacaciones con notificaciones en tiempo real, alimentada por datos extraídos de API.',
+    stack: ['React', 'Redux', 'API REST'],
+  },
+  {
+    title: 'Sistemas de gestión clínica',
+    company: 'Centro Policlínico Valencia',
+    desc: 'Módulos para control de asistencia de RRHH, gestión de seguros médicos y programación de citas, modernizando la operación de la clínica.',
+    stack: ['JavaScript', 'SQL Server', 'Bootstrap'],
+  },
+]
+
+// Formación académica.
+export const EDUCATION = [
+  {
+    title: 'Técnico Superior Universitario en Informática',
+    place: 'Instituto Universitario "Juan Pablo Pérez Alfonzo" (IUTEPAL)',
+    period: '2021 – 2022',
+    note: 'Certificado de excelencia académica · 2.º mejor promedio de la promoción.',
+  },
+]
+
+export const CERTS = [
+  'Taller de Ciberdefensa · CIIL (2022)',
+  'Emprendimiento Profesional (2019)',
+  'Herramientas de Ofimática · Inces (2016)',
+]
+
+export const LANGUAGES = [
+  { name: 'Español', level: 'Nativo' },
+  { name: 'Inglés', level: 'Conversacional / Técnico' },
 ]

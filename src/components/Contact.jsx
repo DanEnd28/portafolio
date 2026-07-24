@@ -44,7 +44,7 @@ export default function Contact() {
   }
 
   return (
-    <Section id="contacto" label="// 05 · Hablemos" title="Contacto">
+    <Section id="contacto" label="// 08 · Hablemos" title="Contacto">
       <div className="grid gap-10 md:grid-cols-2">
         {/* Canales de contacto con logos */}
         <div>
