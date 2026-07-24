@@ -1,10 +1,13 @@
-import { LINKS, PROFILE } from '../data/content'
+import { LINKS, PROFILE, PROFILES } from '../data/content'
+import ProfileTabs from './ProfileTabs'
 import { FaLinkedin, FaGithub, FaArrowRightLong, FaLocationDot, FaDownload } from 'react-icons/fa6'
 import { SiUpwork } from 'react-icons/si'
 
-export default function Hero() {
+export default function Hero({ profile, onChangeProfile }) {
+  const p = PROFILES[profile]
+
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-20 sm:pt-36 sm:pb-24">
+    <section id="top" className="relative overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-24">
       {/* Fondo técnico sutil */}
       <div
         aria-hidden
@@ -15,82 +18,86 @@ export default function Hero() {
           backgroundSize: '48px 48px',
         }}
       />
-      {/* Halo de color detrás de la foto */}
       <div
         aria-hidden
         className="pointer-events-none absolute right-0 top-24 h-72 w-72 rounded-full bg-accent/20 blur-[100px] dark:bg-accent/25"
       />
 
-      <div className="relative mx-auto grid max-w-5xl items-center gap-12 px-6 md:grid-cols-[1fr_auto]">
-        {/* Columna de texto */}
-        <div>
-          {PROFILE.available && (
+      <div className="relative mx-auto max-w-5xl px-6">
+        {/* Selector de enfoque */}
+        <div className="mb-8">
+          <p className="mb-2 font-mono text-xs text-slate-400 dark:text-slate-500">
+            // elige el enfoque
+          </p>
+          <ProfileTabs profile={profile} onChange={onChangeProfile} />
+        </div>
+
+        <div className="grid items-center gap-12 md:grid-cols-[1fr_auto]">
+          {/* Texto */}
+          <div>
             <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-1 font-mono text-xs text-green-600 dark:text-green-400">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
               </span>
-              Disponible para proyectos
+              {PROFILE.availableLabel}
             </span>
-          )}
 
-          <p className="section-label">// {PROFILE.tagline}</p>
+            <p className="section-label">// {p.tagline}</p>
 
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">{PROFILE.name}</h1>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">{PROFILE.name}</h1>
 
-          <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm sm:text-base">
-            <span className="text-slate-800 dark:text-slate-100">{PROFILE.roles[0]}</span>
-            <span className="text-accent-soft dark:text-accent">+</span>
-            <span className="text-slate-800 dark:text-slate-100">{PROFILE.roles[1]}</span>
-          </p>
+            <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm sm:text-base">
+              <span className="text-slate-800 dark:text-slate-100">{p.roles[0]}</span>
+              {p.roles[1] && (
+                <>
+                  <span className="text-accent-soft dark:text-accent">+</span>
+                  <span className="text-slate-800 dark:text-slate-100">{p.roles[1]}</span>
+                </>
+              )}
+            </p>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-700 dark:text-slate-300">
-            {PROFILE.intro}
-          </p>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+              {p.intro}
+            </p>
 
-          <p className="mt-4 flex items-center gap-2 font-mono text-xs text-slate-500">
-            <FaLocationDot className="text-accent-soft dark:text-accent" /> {PROFILE.location}
-          </p>
+            <p className="mt-4 flex items-center gap-2 font-mono text-xs text-slate-500">
+              <FaLocationDot className="text-accent-soft dark:text-accent" /> {PROFILE.location}
+            </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#contacto" className="btn btn-primary">
-              Contacto <FaArrowRightLong />
-            </a>
-            <a href={PROFILE.cv} download className="btn btn-ghost">
-              <FaDownload /> Descargar CV
-            </a>
-            <a href={LINKS.upwork} target="_blank" rel="noreferrer" className="btn btn-ghost">
-              <SiUpwork className="text-[#6FDA44]" /> Upwork
-            </a>
-            <a href={LINKS.linkedin} target="_blank" rel="noreferrer" className="btn btn-ghost">
-              <FaLinkedin className="text-[#0A66C2]" /> LinkedIn
-            </a>
-            <a href={LINKS.github} target="_blank" rel="noreferrer" className="btn btn-ghost">
-              <FaGithub /> GitHub
-            </a>
-          </div>
-        </div>
-
-        {/* Columna de foto */}
-        <div className="order-first justify-self-center md:order-last">
-          <div className="relative">
-            {/* Marco desplazado estilo técnico */}
-            <div
-              aria-hidden
-              className="absolute -inset-3 -z-10 rounded-2xl border border-accent/40"
-              style={{ transform: 'translate(10px, 10px)' }}
-            />
-            <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-xl dark:border-white/10">
-              <img
-                src={PROFILE.photo}
-                alt={PROFILE.name}
-                className="h-72 w-60 object-cover object-top sm:h-80 sm:w-64"
-              />
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#contacto" className="btn btn-primary">
+                Contacto <FaArrowRightLong />
+              </a>
+              <a href={PROFILE.cv} download className="btn btn-ghost">
+                <FaDownload /> Descargar CV
+              </a>
+              <a href={LINKS.upwork} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                <SiUpwork className="text-[#6FDA44]" /> Upwork
+              </a>
+              <a href={LINKS.linkedin} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                <FaLinkedin className="text-[#0A66C2]" /> LinkedIn
+              </a>
+              <a href={LINKS.github} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                <FaGithub /> GitHub
+              </a>
             </div>
-            {/* Etiqueta monoespaciada en la esquina */}
-            <span className="absolute -bottom-3 left-4 rounded-md border border-slate-200 bg-white px-2 py-1 font-mono text-[11px] text-slate-500 shadow-sm dark:border-white/10 dark:bg-[#0e1626]">
-              ~/danny
-            </span>
+          </div>
+
+          {/* Foto */}
+          <div className="order-first justify-self-center md:order-last">
+            <div className="relative">
+              <div className="overflow-hidden rounded-2xl border-2 border-accent/30 shadow-xl dark:border-accent/40">
+                <img
+                  src={PROFILE.photo}
+                  alt={PROFILE.name}
+                  className="h-72 w-60 object-cover object-center sm:h-80 sm:w-64"
+                />
+              </div>
+              <span className="absolute -bottom-3 left-4 rounded-md border border-slate-200 bg-white px-2 py-1 font-mono text-[11px] text-slate-500 shadow-sm dark:border-white/10 dark:bg-[#0e1626]">
+                ~/danny
+              </span>
+            </div>
           </div>
         </div>
       </div>

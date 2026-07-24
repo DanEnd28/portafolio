@@ -1,4 +1,5 @@
 import Section from './Section'
+import Gallery from './Gallery'
 import { PROJECTS } from '../data/content'
 
 export default function Projects() {
@@ -7,11 +8,8 @@ export default function Projects() {
       <div className="grid gap-4 sm:grid-cols-2">
         {PROJECTS.map((p) => (
           <article key={p.title} className="card flex flex-col">
-            {/* Placeholder de imagen/GIF — reemplaza por una captura del proyecto */}
-            <div className="mb-5 flex aspect-video items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-100 dark:border-white/10 dark:bg-white/5">
-              <span className="font-mono text-xs text-slate-400 dark:text-slate-500">
-                [ imagen / gif por completar ]
-              </span>
+            <div className="mb-5">
+              <Gallery images={p.images} title={p.title} />
             </div>
 
             <h3 className="text-lg font-semibold">{p.title}</h3>

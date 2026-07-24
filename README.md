@@ -44,6 +44,33 @@ Casi todo el contenido editable vive en **`src/data/content.js`**:
 Ya está `public/CV-Danny-Endara.docx`; para ofrecer un PDF, expórtalo, colócalo en
 `public/CV-Danny-Endara.pdf` y cambia `PROFILE.cv` a esa ruta.
 
+### Perfiles / enfoques (IA · Frontend · TI)
+
+El hero tiene un selector que cambia el **hero, "Sobre mí" y "Qué hago"** entre tres
+enfoques, definidos en `PROFILES` dentro de `content.js`. Se puede compartir un enlace
+directo a un enfoque con el parámetro `?perfil=`:
+
+- `tuweb.vercel.app/` o `?perfil=ia` → IA & Automatización (por defecto)
+- `?perfil=frontend` → Frontend
+- `?perfil=ti` → TI & Sistemas (ideal para enviar a empresas presenciales tipo Chronus)
+
+Cada enfoque define sus `roles`, `tagline`, `intro`, párrafos de `about` y tarjetas de
+`services`. Las secciones de Experiencia, Proyectos, Stack, Educación y Contacto son
+iguales para todos.
+
+### Imágenes de proyectos (carrusel dinámico)
+
+Cada proyecto (en `PROJECTS` y `FRONTEND_PROJECTS`) tiene un array `images`. Coloca los
+archivos en `public/proyectos/` y añade sus rutas:
+
+```js
+images: ['/proyectos/mi-captura-1.png', '/proyectos/mi-captura-2.png'],
+```
+
+El componente `Gallery` arma solo el carrusel (flechas + puntos) y un **lightbox** al
+hacer click. Si `images` está vacío, muestra un placeholder. No hay que tocar código:
+solo editar el array.
+
 **Tu foto:** coloca tu imagen en `public/foto-danny.jpg` y cambia `PROFILE.photo`
 en `content.js` a `'/foto-danny.jpg'`. Se muestra bien cuadrada (~1:1).
 

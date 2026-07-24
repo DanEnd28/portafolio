@@ -9,7 +9,7 @@ const CHANNELS = [
   { key: 'linkedin', label: 'LinkedIn', value: 'Conectemos', href: LINKS.linkedin, Icon: FaLinkedin, color: '#0A66C2' },
   { key: 'github', label: 'GitHub', value: 'github.com/DanEnd28', href: LINKS.github, Icon: FaGithub, color: '#8b949e' },
   { key: 'upwork', label: 'Upwork', value: 'Perfil freelance', href: LINKS.upwork, Icon: SiUpwork, color: '#6FDA44' },
-  { key: 'whatsapp', label: 'WhatsApp', value: '+58 424-4543543', href: LINKS.whatsapp, Icon: SiWhatsapp, color: '#25D366' },
+  { key: 'whatsapp', label: 'WhatsApp', value: '+58 422-4543543', href: LINKS.whatsapp, Icon: SiWhatsapp, color: '#25D366' },
 ]
 
 export default function Contact() {

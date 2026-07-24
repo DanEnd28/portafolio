@@ -1,11 +1,18 @@
 import Section from './Section'
-import { WHAT_I_DO } from '../data/content'
+import ProfileTabs from './ProfileTabs'
+import { PROFILES } from '../data/content'
 
-export default function WhatIDo() {
+export default function WhatIDo({ profile, onChangeProfile }) {
+  const p = PROFILES[profile]
+
   return (
     <Section id="que-hago" label="// 02 · Servicios" title="Qué hago">
-      <div className="grid gap-4 sm:grid-cols-2">
-        {WHAT_I_DO.map((item, i) => (
+      <div className="mb-6">
+        <ProfileTabs profile={profile} onChange={onChangeProfile} size="sm" />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {p.services.map((item, i) => (
           <div key={item.title} className="card group relative overflow-hidden">
             <span
               aria-hidden
