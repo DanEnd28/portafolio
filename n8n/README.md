@@ -9,6 +9,9 @@ Esta carpeta tiene **dos** workflows, uno por cada webhook del portafolio:
 
 Archivos: `prompt-sistema.md` es el system prompt del asistente.
 
+> 👉 **¿Solo quieres dejarlo funcionando?** Sigue la guía paso a paso con checklist:
+> **[`CONFIGURACION.md`](./CONFIGURACION.md)**.
+
 ---
 
 ## 2) Workflow de contacto — `contacto-portafolio.json`
