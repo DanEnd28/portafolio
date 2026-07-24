@@ -1,6 +1,23 @@
 import Section from './Section'
 import Gallery from './Gallery'
 import { FRONTEND_PROJECTS } from '../data/content'
+import { FaCartShopping, FaStore, FaLaptopCode } from 'react-icons/fa6'
+
+// Icono de respaldo cuando un proyecto no tiene imágenes.
+const PLACEHOLDER_ICONS = {
+  ecommerce: FaCartShopping,
+  store: FaStore,
+  app: FaLaptopCode,
+}
+
+function ImagePlaceholder({ type }) {
+  const Icon = PLACEHOLDER_ICONS[type] || FaLaptopCode
+  return (
+    <div className="mb-5 flex aspect-video items-center justify-center rounded-lg border border-slate-200 bg-gradient-to-br from-accent/10 to-accent2/10 dark:border-white/10">
+      <Icon className="h-14 w-14 text-accent2/70 dark:text-accent2/80" aria-hidden />
+    </div>
+  )
+}
 
 export default function FrontendProjects() {
   return (
@@ -13,10 +30,12 @@ export default function FrontendProjects() {
       <div className="grid gap-6 sm:grid-cols-2">
         {FRONTEND_PROJECTS.map((p) => (
           <article key={p.title} className="card flex flex-col">
-            {p.images?.length > 0 && (
+            {p.images?.length > 0 ? (
               <div className="mb-5">
                 <Gallery images={p.images} title={p.title} />
               </div>
+            ) : (
+              <ImagePlaceholder type={p.placeholder} />
             )}
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
