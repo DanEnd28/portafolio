@@ -1,6 +1,6 @@
 import Section from './Section'
 import ProfileTabs from './ProfileTabs'
-import { STATS, INDUSTRIES, PROFILES } from '../data/content'
+import { STATS, PROFILES } from '../data/content'
 
 export default function About({ profile, onChangeProfile }) {
   const p = PROFILES[profile]
@@ -17,16 +17,15 @@ export default function About({ profile, onChangeProfile }) {
         ))}
       </div>
 
-      {/* Rubros */}
+      {/* Chips por perfil (rubros / lo que construyo / áreas) */}
       <div className="mt-8 max-w-3xl">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-slate-500">
-          Rubros con los que he trabajado
+          {p.chipsLabel}
         </p>
         <div className="flex flex-wrap gap-2">
-          {INDUSTRIES.map((industry) => (
-            <span key={industry} className="chip">{industry}</span>
+          {p.chips.map((chip) => (
+            <span key={chip} className="chip">{chip}</span>
           ))}
-          <span className="chip border-dashed text-slate-400 dark:text-slate-500">y más</span>
         </div>
       </div>
 

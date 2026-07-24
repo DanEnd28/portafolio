@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { PROFILES } from './data/content'
+import { PROFILES, SECTIONS } from './data/content'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -51,10 +51,10 @@ export default function App() {
         <About profile={profile} onChangeProfile={changeProfile} />
         <WhatIDo profile={profile} onChangeProfile={changeProfile} />
         <Experience />
-        <Projects />
-        <FrontendProjects />
+        {SECTIONS.proyectosAutomatizacion && <Projects />}
+        {SECTIONS.proyectosFrontend && <FrontendProjects />}
         <TechStack />
-        <Education />
+        {SECTIONS.educacion && <Education />}
         <Contact />
       </main>
       <Footer />

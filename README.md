@@ -26,63 +26,116 @@ npm run preview   # sirve el build de producción en local para probarlo
 
 ---
 
-## ✏️ Personalizar
+## ✏️ Personalizar — todo desde `src/data/content.js`
 
-Casi todo el contenido editable vive en **`src/data/content.js`**:
+**Regla general:** casi nada se edita en los componentes. Todo el contenido está en
+un solo archivo: **`src/data/content.js`**. Abajo, qué hace cada bloque.
 
-- `PROFILE` — nombre, roles (automatización + frontend), tagline, intro, ruta de la foto, ruta del CV, disponibilidad y ubicación.
-- `LINKS` — email, LinkedIn, GitHub, Upwork y WhatsApp.
-- `STATS` — las 3 métricas bajo "Sobre mí".
-- `INDUSTRIES` — los rubros que se muestran como chips.
-- `WHAT_I_DO` — las 4 tarjetas de servicios.
-- `EXPERIENCE` — la experiencia laboral (timeline).
-- `PROJECTS` — proyectos de automatización / IA (con enlace al repo).
-- `FRONTEND_PROJECTS` — proyectos frontend profesionales.
-- `EDUCATION`, `CERTS`, `LANGUAGES` — formación e idiomas.
+### 1. Identidad y contacto
 
-**Tu CV descargable:** el botón "Descargar CV" del hero apunta a `PROFILE.cv`.
-Ya está `public/CV-Danny-Endara.docx`; para ofrecer un PDF, expórtalo, colócalo en
-`public/CV-Danny-Endara.pdf` y cambia `PROFILE.cv` a esa ruta.
+```js
+export const PROFILE = {
+  name: 'Danny Endara',
+  photo: '/foto-danny.jpg',     // archivo en public/
+  cv: '/CV-Danny-Endara.docx',  // archivo en public/
+  availableLabel: 'Disponible', // texto del indicador verde
+  location: 'Valencia, Venezuela · Remoto',
+}
 
-### Perfiles / enfoques (IA · Frontend · TI)
+export const LINKS = {           // solo las URLs base
+  email: '...', linkedin: '...', github: '...', upwork: '...', whatsapp: '...',
+}
+```
 
-El hero tiene un selector que cambia el **hero, "Sobre mí" y "Qué hago"** entre tres
-enfoques, definidos en `PROFILES` dentro de `content.js`. Se puede compartir un enlace
-directo a un enfoque con el parámetro `?perfil=`:
+- **Foto:** reemplaza `public/foto-danny.jpg` por la tuya (queda cuadrada ~1:1).
+- **CV:** hay un `.docx` en `public/`. Para un PDF, expórtalo, ponlo en
+  `public/CV-Danny-Endara.pdf` y cambia `PROFILE.cv` a `'/CV-Danny-Endara.pdf'`.
+
+### 2. Botones y redes sociales (agregar / quitar)
+
+La lista `SOCIALS` controla **los botones del hero, las tarjetas de Contacto y los
+iconos del footer** a la vez. Para **agregar una red nueva**, copia una línea del array:
+
+```js
+export const SOCIALS = [
+  { key: 'email',    label: 'Email',    value: LINKS.email, href: `mailto:${LINKS.email}`, icon: 'email',    color: '#22d3ee' },
+  { key: 'instagram',label: 'Instagram',value: '@tu_usuario', href: 'https://instagram.com/tu_usuario', icon: 'instagram', color: '#E4405F' },
+]
+```
+
+- `icon`: nombre de un icono ya disponible: `email`, `linkedin`, `github`, `upwork`,
+  `whatsapp`, `instagram`, `x`, `youtube`, `website`, `telegram`.
+- ¿Necesitas otro icono? Ábrelo en `src/components/SocialIcons.jsx`, impórtalo de
+  `react-icons` y agrégalo al mapa `MAP`. Nada más.
+- `value`: el texto que se ve en la tarjeta de contacto. `color`: color del icono.
+
+### 3. Perfiles / enfoques (IA · Frontend · TI)
+
+El selector del hero cambia el **hero, "Sobre mí" y "Qué hago"** entre tres enfoques
+definidos en `PROFILES`. Puedes compartir un enlace directo con `?perfil=`:
 
 - `tuweb.vercel.app/` o `?perfil=ia` → IA & Automatización (por defecto)
 - `?perfil=frontend` → Frontend
-- `?perfil=ti` → TI & Sistemas (ideal para enviar a empresas presenciales tipo Chronus)
+- `?perfil=ti` → TI & Sistemas (para enviar a empresas presenciales tipo Chronus)
 
-Cada enfoque define sus `roles`, `tagline`, `intro`, párrafos de `about` y tarjetas de
-`services`. Las secciones de Experiencia, Proyectos, Stack, Educación y Contacto son
-iguales para todos.
+Cada perfil define: `roles`, `tagline`, `intro`, `about` (párrafos), `chipsLabel` +
+`chips`, y `services`. **Los chips son un simple array de texto** — cambia el título con
+`chipsLabel` y los chips con `chips`:
 
-### Imágenes de proyectos (carrusel dinámico)
+```js
+chipsLabel: 'Rubros con los que he trabajado',
+chips: ['Salud & Estética', 'Bienes Raíces', 'Educación', 'y más'],
+```
 
-Cada proyecto (en `PROJECTS` y `FRONTEND_PROJECTS`) tiene un array `images`. Coloca los
+### 4. Activar / desactivar secciones
+
+```js
+export const SECTIONS = {
+  proyectosAutomatizacion: false, // ← desactivada por ahora
+  proyectosFrontend: true,
+  educacion: true,
+}
+```
+
+Pon `true`/`false` según lo que quieras mostrar. Al desactivar una sección, también
+desaparece del menú superior automáticamente. **Los proyectos de automatización están
+en `false`** hasta que tengas las imágenes listas: cámbialo a `true` para mostrarlos.
+
+### 5. Imágenes de proyectos (carrusel dinámico)
+
+Cada proyecto (en `PROJECTS` y `FRONTEND_PROJECTS`) tiene un array `images`. Pon los
 archivos en `public/proyectos/` y añade sus rutas:
 
 ```js
-images: ['/proyectos/mi-captura-1.png', '/proyectos/mi-captura-2.png'],
+images: ['/proyectos/captura-1.png', '/proyectos/captura-2.png'],
 ```
 
 El componente `Gallery` arma solo el carrusel (flechas + puntos) y un **lightbox** al
-hacer click. Si `images` está vacío, muestra un placeholder. No hay que tocar código:
-solo editar el array.
+hacer click. Si `images` está vacío, muestra un placeholder. Solo editas el array.
 
-**Tu foto:** coloca tu imagen en `public/foto-danny.jpg` y cambia `PROFILE.photo`
-en `content.js` a `'/foto-danny.jpg'`. Se muestra bien cuadrada (~1:1).
+### 6. Stack técnico (agregar tecnologías)
 
-**Logos del stack:** son iconos de marca de `react-icons` (se empaquetan en el
-build, sin llamadas externas). El mapa de marca → logo/color está en
-`src/components/BrandIcons.jsx`; GoHighLevel usa un logo custom porque no existe en
-la librería.
+`TECH_STACK` es un array de grupos; cada item es `{ name, brand }`:
 
-**Imágenes de proyectos:** en `src/components/Projects.jsx` hay un placeholder
-`[ imagen / gif por completar ]`. Sustitúyelo por una captura o GIF de cada proyecto.
+```js
+{ name: 'React', brand: 'react' },   // con logo de marca
+{ name: 'Retell AI (voz)' },         // sin brand → chip con punto morado
+```
 
-**Texto del "Sobre mí":** está en `src/components/About.jsx`.
+- `brand` es una clave del mapa `BRAND` en `src/components/BrandIcons.jsx` (define el
+  logo y color). Si omites `brand`, se muestra como chip de texto.
+- Para un logo nuevo: impórtalo de `react-icons/si` en `BrandIcons.jsx` y añádelo al
+  mapa `BRAND`.
+
+### 7. Experiencia, educación, idiomas
+
+`EXPERIENCE`, `EDUCATION`, `CERTS` y `LANGUAGES` son arrays directos: edita el texto,
+las fechas y los `tags` (que también son arrays de texto).
+
+### 8. Colores
+
+Se definen en `tailwind.config.js`: `accent` (cian, principal) y `accent2` (morado,
+complementario). Cámbialos ahí y se aplican en todo el sitio.
 
 ---
 
@@ -122,13 +175,16 @@ portafolio-danny/
 │   ├── components/
 │   │   ├── Navbar.jsx
 │   │   ├── Hero.jsx
+│   │   ├── ProfileTabs.jsx      # selector de enfoque (IA/Frontend/TI)
 │   │   ├── Section.jsx
 │   │   ├── About.jsx
 │   │   ├── WhatIDo.jsx
 │   │   ├── Experience.jsx
+│   │   ├── Gallery.jsx          # carrusel + lightbox dinámico
 │   │   ├── Projects.jsx
 │   │   ├── FrontendProjects.jsx
-│   │   ├── BrandIcons.jsx
+│   │   ├── BrandIcons.jsx       # logos del stack
+│   │   ├── SocialIcons.jsx      # iconos de redes
 │   │   ├── TechStack.jsx
 │   │   ├── Education.jsx
 │   │   ├── Contact.jsx

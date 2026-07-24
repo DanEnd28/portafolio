@@ -1,10 +1,9 @@
-// ────────────────────────────────────────────────────────────────
-// Datos del portafolio. Reemplaza los placeholders marcados con TODO.
-// Para agregar imágenes a un proyecto: coloca los archivos en
-// public/proyectos/ y añade sus rutas al array "images" del proyecto.
-// ────────────────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+//  DATOS DEL PORTAFOLIO — edita casi todo desde aquí.
+//  Guía completa de configuración en README.md (sección "Personalizar").
+// ════════════════════════════════════════════════════════════════
 
-// Identidad (compartida en todos los perfiles).
+// ── Identidad (compartida en todos los perfiles) ────────────────
 export const PROFILE = {
   name: 'Danny Endara',
   photo: '/foto-danny.jpg',
@@ -14,6 +13,7 @@ export const PROFILE = {
   location: 'Valencia, Venezuela · Remoto',
 }
 
+// ── Datos de contacto ───────────────────────────────────────────
 export const LINKS = {
   email: 'dannyendara28@gmail.com',
   linkedin: 'https://linkedin.com/in/dannyendara',
@@ -22,9 +22,33 @@ export const LINKS = {
   whatsapp: 'https://wa.me/584224543543', // +58 422-4543543
 }
 
+// ── Redes / enlaces (CONFIGURABLE) ──────────────────────────────
+// Estos aparecen como botones en el hero, tarjetas en Contacto e iconos
+// en el footer. Para AGREGAR una red: copia una línea y cambia sus datos.
+//   - icon: nombre de un icono disponible en SocialIcons.jsx
+//     (email, linkedin, github, upwork, whatsapp, instagram, x, youtube, website, telegram)
+//   - value: texto visible en la tarjeta de contacto
+//   - color: color de marca (hex) para el icono
+export const SOCIALS = [
+  { key: 'email', label: 'Email', value: LINKS.email, href: `mailto:${LINKS.email}`, icon: 'email', color: '#22d3ee' },
+  { key: 'linkedin', label: 'LinkedIn', value: 'in/dannyendara', href: LINKS.linkedin, icon: 'linkedin', color: '#0A66C2' },
+  { key: 'github', label: 'GitHub', value: 'github.com/DanEnd28', href: LINKS.github, icon: 'github', color: '#a855f7' },
+  { key: 'upwork', label: 'Upwork', value: 'Perfil freelance', href: LINKS.upwork, icon: 'upwork', color: '#6FDA44' },
+  { key: 'whatsapp', label: 'WhatsApp', value: '+58 422-4543543', href: LINKS.whatsapp, icon: 'whatsapp', color: '#25D366' },
+  // Ejemplo para agregar otra red (descomenta y ajusta):
+  // { key: 'instagram', label: 'Instagram', value: '@tu_usuario', href: 'https://instagram.com/tu_usuario', icon: 'instagram', color: '#E4405F' },
+]
+
+// ── Secciones visibles (ACTIVA / DESACTIVA) ─────────────────────
+// Pon en false una sección que aún no quieras mostrar.
+export const SECTIONS = {
+  proyectosAutomatizacion: false, // ← desactivada por ahora (sin imágenes listas)
+  proyectosFrontend: true,
+  educacion: true,
+}
+
 // ── Perfiles / enfoques ─────────────────────────────────────────
-// El selector del hero cambia entre estos. Se puede compartir un
-// enlace directo con ?perfil=ia | frontend | ti
+// El selector del hero cambia entre estos. Enlace directo: ?perfil=ia|frontend|ti
 export const PROFILE_ORDER = ['ia', 'frontend', 'ti']
 
 export const PROFILES = {
@@ -39,6 +63,8 @@ export const PROFILES = {
       'Mi diferencial no es solo conectar nodos: es diseñar sistemas que no se caen cuando una API externa falla. Clasificación de errores por tipo (rate-limit, timeout, auth, servidor), reintentos con backoff exponencial + jitter y diagnóstico por causa raíz antes de aplicar soluciones.',
       'Entrego el sistema completo: arquitectura del agente (WhatsApp, Instagram, voz con Retell AI), orquestación en n8n, integración con CRM (GoHighLevel) y modelos de lenguaje (Claude, GPT), más la capa de resiliencia que lo mantiene operativo sin supervisión.',
     ],
+    chipsLabel: 'Rubros con los que he trabajado',
+    chips: ['Salud & Estética', 'Bienes Raíces', 'Educación', 'Retail', 'Logística & Envíos', 'y más'],
     services: [
       { icon: '⚙️', title: 'Automatización de procesos', desc: 'Flujos en n8n desde simples hasta arquitecturas complejas con colas, reintentos y manejo de errores tipado.', tag: 'n8n · Webhooks · Redis' },
       { icon: '🤖', title: 'Agentes conversacionales', desc: 'WhatsApp, Instagram, Telegram y voz (Retell AI) con memoria, tool calling y bases de conocimiento que no alucinan.', tag: 'WhatsApp · Voz · Telegram' },
@@ -59,6 +85,8 @@ export const PROFILES = {
       'Diseño e implemento interfaces intuitivas y responsivas con React, TypeScript, Tailwind, Redux y Material UI, integrando APIs del equipo de backend y asegurando que los datos se muestren de forma clara y eficiente.',
       'Mi trabajo reciente en automatización e IA me da una ventaja poco común en frontend: entiendo el sistema completo de punta a punta, no solo la capa visual.',
     ],
+    chipsLabel: 'Lo que construyo',
+    chips: ['E-commerce', 'Dashboards en tiempo real', 'Sistemas de RRHH', 'Gestión de vacaciones', 'Autenticación OAuth', 'Calendarios interactivos'],
     services: [
       { icon: '🎨', title: 'Interfaces de usuario', desc: 'Componentes reutilizables, responsive y accesibles con React + Tailwind.', tag: 'React · Tailwind' },
       { icon: '📊', title: 'Dashboards en tiempo real', desc: 'Paneles que consumen APIs y se actualizan en vivo (Supabase Realtime).', tag: 'React · Supabase' },
@@ -79,6 +107,8 @@ export const PROFILES = {
       'No me limito a hacer que un sistema funcione una vez: diseño la capa que lo mantiene operativo todos los días — detección y clasificación de errores y diagnóstico sistemático de causa raíz (fallos de red, de servicios externos, de autenticación o de lógica interna) antes de aplicar cualquier solución.',
       'Sumo a eso una base sólida como desarrollador (React, integraciones API, bases de datos relacionales) y soporte técnico a usuarios. Busco un rol donde esta combinación de sistemas, automatización y pensamiento analítico tenga impacto inmediato.',
     ],
+    chipsLabel: 'Áreas de trabajo',
+    chips: ['Soporte a usuarios', 'Integración de sistemas', 'Bases de datos', 'Automatización de procesos', 'Resolución de incidencias', 'Sistemas de gestión'],
     services: [
       { icon: '🛠️', title: 'Soporte TI e incidencias', desc: 'Diagnóstico y resolución de incidencias operativas y soporte a usuarios internos.', tag: 'Soporte · Diagnóstico' },
       { icon: '🔗', title: 'Integración de sistemas', desc: 'Conexión de plataformas, APIs, CRM (GoHighLevel) y servicios externos.', tag: 'APIs · CRM' },
@@ -89,23 +119,14 @@ export const PROFILES = {
   },
 }
 
-// Métricas cortas bajo "Sobre mí" (compartidas).
+// ── Métricas bajo "Sobre mí" (compartidas) ──────────────────────
 export const STATS = [
   { value: '250+', label: 'clientes activos simultáneos' },
   { value: '15 meses', label: 'sosteniendo sistemas en producción' },
   { value: '24/7', label: 'sistemas que no se detienen' },
 ]
 
-// Rubros (chips en "Sobre mí").
-export const INDUSTRIES = [
-  'Salud & Estética',
-  'Bienes Raíces',
-  'Educación',
-  'Retail',
-  'Logística & Envíos',
-]
-
-// Experiencia laboral (timeline).
+// ── Experiencia laboral (timeline) ──────────────────────────────
 export const EXPERIENCE = [
   {
     role: 'Automation Lead / Encargado de Ingeniería',
@@ -125,7 +146,7 @@ export const EXPERIENCE = [
     role: 'Analista Programador',
     company: 'Centro Policlínico Valencia',
     period: 'Ago. 2022 – Nov. 2024',
-    desc: 'Desarrollé sistemas para modernizar la gestión clínica: control de asistencia de RRHH, gestión de seguros médicos (SINTEG) y programación de citas. Soporte técnico continuo y resolución de incidencias a usuarios internos.',
+    desc: 'Desarrollé sistemas para modernizar la gestión clínica: control de asistencia de RRHH (SYSCAM), gestión de seguros médicos (SINTEG) y programación de citas. Soporte técnico continuo y resolución de incidencias a usuarios internos.',
     tags: ['JavaScript', 'React', 'SQL Server', 'Soporte TI'],
   },
   {
@@ -144,7 +165,7 @@ export const EXPERIENCE = [
   },
 ]
 
-// Proyectos de automatización / IA (demos de portafolio).
+// ── Proyectos de automatización / IA (demos) ────────────────────
 // Agrega capturas/GIFs en el array "images" (rutas dentro de public/).
 export const PROJECTS = [
   {
@@ -177,7 +198,7 @@ export const PROJECTS = [
   },
 ]
 
-// Proyectos frontend reales (trabajo profesional / freelance).
+// ── Proyectos frontend reales (profesionales / freelance) ───────
 export const FRONTEND_PROJECTS = [
   {
     title: 'Alfanar — Gestión de vacaciones con OAuth',
@@ -213,7 +234,59 @@ export const FRONTEND_PROJECTS = [
   },
 ]
 
-// Formación académica.
+// ── Stack técnico (CONFIGURABLE) ────────────────────────────────
+// Cada item: { name, brand }. "brand" es una clave del mapa BRAND en
+// BrandIcons.jsx (define el logo y color). Si omites "brand", se muestra
+// como chip de texto con un punto. Agrega/quita items libremente.
+export const TECH_STACK = [
+  {
+    title: 'Automatización · IA · Backend',
+    items: [
+      { name: 'n8n', brand: 'n8n' },
+      { name: 'GoHighLevel', brand: 'ghl' },
+      { name: 'Claude / GPT', brand: 'ai' },
+      { name: 'WhatsApp / Meta API', brand: 'whatsapp' },
+      { name: 'Telegram', brand: 'telegram' },
+      { name: 'Retell AI (voz)' },
+      { name: 'Google Calendar', brand: 'gcalendar' },
+      { name: 'Redis', brand: 'redis' },
+      { name: 'Supabase', brand: 'supabase' },
+      { name: 'MCP' },
+      { name: 'REST APIs' },
+      { name: 'Webhooks' },
+      { name: 'Prompt Engineering' },
+    ],
+  },
+  {
+    title: 'Frontend',
+    items: [
+      { name: 'React', brand: 'react' },
+      { name: 'TypeScript', brand: 'typescript' },
+      { name: 'JavaScript', brand: 'javascript' },
+      { name: 'Redux', brand: 'redux' },
+      { name: 'Tailwind CSS', brand: 'tailwind' },
+      { name: 'Material UI', brand: 'mui' },
+      { name: 'Bootstrap', brand: 'bootstrap' },
+      { name: 'HTML5', brand: 'html5' },
+      { name: 'CSS3', brand: 'css' },
+      { name: 'Vite', brand: 'vite' },
+    ],
+  },
+  {
+    title: 'Infraestructura · Datos · Herramientas',
+    items: [
+      { name: 'PostgreSQL', brand: 'postgres' },
+      { name: 'SQL Server' },
+      { name: 'MySQL', brand: 'mysql' },
+      { name: 'Docker', brand: 'docker' },
+      { name: 'Git & GitHub', brand: 'github' },
+      { name: 'Linux', brand: 'linux' },
+      { name: 'Render', brand: 'render' },
+    ],
+  },
+]
+
+// ── Formación académica ─────────────────────────────────────────
 export const EDUCATION = [
   {
     title: 'Técnico Superior Universitario en Informática',
@@ -225,7 +298,7 @@ export const EDUCATION = [
 
 export const CERTS = [
   'Taller de Ciberdefensa · CIIL (2022)',
-  'Emprendimiento Profesional (2019)',
+  'Emprendimiento — Reparación de celulares (2019)',
   'Herramientas de Ofimática · Inces (2016)',
 ]
 
