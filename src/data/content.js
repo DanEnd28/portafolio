@@ -246,7 +246,8 @@ export const FRONTEND_PROJECTS = [
     role: 'FrontEnd Developer',
     desc: 'Tienda en línea personalizada que se adapta en tiempo real según datos de la API de la empresa, con módulo de compras y cálculo automático de precios.',
     stack: ['React', 'JavaScript', 'API REST', 'Tailwind'],
-    images: [], // agrega capturas cuando las tengas
+    images: [], // sin capturas → muestra un icono (ver "placeholder")
+    placeholder: 'ecommerce', // icono cuando no hay imágenes: ecommerce | app | store
   },
 ]
 
