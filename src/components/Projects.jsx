@@ -8,9 +8,11 @@ export default function Projects() {
       <div className="grid gap-4 sm:grid-cols-2">
         {PROJECTS.map((p) => (
           <article key={p.title} className="card flex flex-col">
-            <div className="mb-5">
-              <Gallery images={p.images} title={p.title} />
-            </div>
+            {p.images?.length > 0 && (
+              <div className="mb-5">
+                <Gallery images={p.images} title={p.title} />
+              </div>
+            )}
 
             <h3 className="text-lg font-semibold">{p.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">

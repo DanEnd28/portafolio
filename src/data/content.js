@@ -65,6 +65,12 @@ export const PROFILES = {
     ],
     chipsLabel: 'Rubros con los que he trabajado',
     chips: ['Salud & Estética', 'Bienes Raíces', 'Educación', 'Retail', 'Logística & Envíos', 'y más'],
+    // Métricas (solo para este perfil de automatización).
+    stats: [
+      { value: '250+', label: 'clientes activos simultáneos' },
+      { value: '15 meses', label: 'sosteniendo sistemas en producción' },
+      { value: '24/7', label: 'sistemas que no se detienen' },
+    ],
     services: [
       { icon: '⚙️', title: 'Automatización de procesos', desc: 'Flujos en n8n desde simples hasta arquitecturas complejas con colas, reintentos y manejo de errores tipado.', tag: 'n8n · Webhooks · Redis' },
       { icon: '🤖', title: 'Agentes conversacionales', desc: 'WhatsApp, Instagram, Telegram y voz (Retell AI) con memoria, tool calling y bases de conocimiento que no alucinan.', tag: 'WhatsApp · Voz · Telegram' },
@@ -118,13 +124,6 @@ export const PROFILES = {
     ],
   },
 }
-
-// ── Métricas bajo "Sobre mí" (compartidas) ──────────────────────
-export const STATS = [
-  { value: '250+', label: 'clientes activos simultáneos' },
-  { value: '15 meses', label: 'sosteniendo sistemas en producción' },
-  { value: '24/7', label: 'sistemas que no se detienen' },
-]
 
 // ── Experiencia laboral (timeline) ──────────────────────────────
 export const EXPERIENCE = [
@@ -206,7 +205,13 @@ export const FRONTEND_PROJECTS = [
     role: 'FrontEnd Developer',
     desc: 'Sistema integral de gestión de vacaciones con inicio de sesión vía Microsoft (OAuth), calendario interactivo para ver los períodos de todos los empleados, organigrama, estadísticas y evaluaciones de desempeño. Interfaz intuitiva, responsive y de alto rendimiento.',
     stack: ['React', 'Tailwind CSS', 'TypeScript', 'Docker'],
-    images: ['/proyectos/alfanar-1.png'],
+    images: [
+      '/proyectos/alfanar-1.png', '/proyectos/alfanar-2.png', '/proyectos/alfanar-3.png',
+      '/proyectos/alfanar-4.png', '/proyectos/alfanar-5.png', '/proyectos/alfanar-6.png',
+      '/proyectos/alfanar-7.png', '/proyectos/alfanar-8.png', '/proyectos/alfanar-9.png',
+      '/proyectos/alfanar-10.png', '/proyectos/alfanar-11.png', '/proyectos/alfanar-12.png',
+      '/proyectos/alfanar-13.png', '/proyectos/alfanar-14.png', '/proyectos/alfanar-15.png',
+    ],
   },
   {
     title: 'SINTEG — Sistema de seguros médicos',
@@ -214,7 +219,7 @@ export const FRONTEND_PROJECTS = [
     role: 'FrontEnd Developer | Analista Programador',
     desc: 'Sistema de aseguradoras para empresas y particulares: las empresas contratan planes o servicios médicos para sus empleados; la aplicación gestiona los pagos a médicos y unidades de servicio y los descuentos para los empleados de la empresa cliente.',
     stack: ['React', 'Tailwind CSS', 'Material UI', 'Redux', 'PostgreSQL'],
-    images: ['/proyectos/sinteg-1.png'],
+    images: ['/proyectos/sinteg-video.mp4', '/proyectos/sinteg-1.png', '/proyectos/sinteg-2.png'],
   },
   {
     title: 'SYSCAM — Sistema de gestión de RRHH',
@@ -222,7 +227,7 @@ export const FRONTEND_PROJECTS = [
     role: 'FrontEnd Developer | Analista Programador',
     desc: 'Sistema de Recursos Humanos con control de asistencia, registro de horas, gestión de vacaciones, permisos por enfermedad y justificaciones. Incluye página de login, movimientos de empleados y generación de carnets con código de barras.',
     stack: ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap'],
-    images: ['/proyectos/syscam-1.png'],
+    images: ['/proyectos/syscam-1.png', '/proyectos/syscam-2.png', '/proyectos/syscam-3.png'],
   },
   {
     title: 'E-commerce dinámico',
@@ -281,7 +286,6 @@ export const TECH_STACK = [
       { name: 'Docker', brand: 'docker' },
       { name: 'Git & GitHub', brand: 'github' },
       { name: 'Linux', brand: 'linux' },
-      { name: 'Render', brand: 'render' },
     ],
   },
 ]

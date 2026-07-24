@@ -13,9 +13,11 @@ export default function FrontendProjects() {
       <div className="grid gap-6 sm:grid-cols-2">
         {FRONTEND_PROJECTS.map((p) => (
           <article key={p.title} className="card flex flex-col">
-            <div className="mb-5">
-              <Gallery images={p.images} title={p.title} />
-            </div>
+            {p.images?.length > 0 && (
+              <div className="mb-5">
+                <Gallery images={p.images} title={p.title} />
+              </div>
+            )}
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="font-mono text-xs text-accent-soft dark:text-accent">

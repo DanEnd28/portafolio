@@ -101,17 +101,27 @@ Pon `true`/`false` según lo que quieras mostrar. Al desactivar una sección, ta
 desaparece del menú superior automáticamente. **Los proyectos de automatización están
 en `false`** hasta que tengas las imágenes listas: cámbialo a `true` para mostrarlos.
 
-### 5. Imágenes de proyectos (carrusel dinámico)
+### 5. Imágenes y videos de proyectos (carrusel dinámico)
 
 Cada proyecto (en `PROJECTS` y `FRONTEND_PROJECTS`) tiene un array `images`. Pon los
-archivos en `public/proyectos/` y añade sus rutas:
+archivos en `public/proyectos/` y añade sus rutas (imágenes **y/o** videos):
 
 ```js
-images: ['/proyectos/captura-1.png', '/proyectos/captura-2.png'],
+images: ['/proyectos/demo.mp4', '/proyectos/captura-1.png', '/proyectos/captura-2.png'],
 ```
 
-El componente `Gallery` arma solo el carrusel (flechas + puntos) y un **lightbox** al
-hacer click. Si `images` está vacío, muestra un placeholder. Solo editas el array.
+El componente `Gallery` decide solo qué mostrar:
+
+- **1 solo archivo** → se muestra estático.
+- **varios archivos** → carrusel que avanza **solo** (se pausa al pasar el mouse, con el
+  lightbox abierto o mientras un video reproduce) y también con flechas/puntos.
+- **video** (`.mp4`, `.webm`, `.mov`) → se detecta por la extensión, se reproduce con
+  controles y se marca con la etiqueta ▶ VIDEO.
+- **click / ampliar** → abre el lightbox tipo galería (zoom) con navegación y teclado
+  (← → Esc).
+- **array vacío** → no muestra nada (sin placeholder), como en el e-commerce.
+
+> Consejo: usa nombres sin espacios ni paréntesis (`alfanar-1.png`, no `alfanar (1).png`).
 
 ### 6. Stack técnico (agregar tecnologías)
 
