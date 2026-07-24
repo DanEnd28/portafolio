@@ -58,7 +58,9 @@
         "httpMethod": "POST",
         "path": "asistente-danny",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {
+          "allowedOrigins": "*"
+        }
       },
       "id": "webhook-in",
       "name": "Recibir Mensaje del Portafolio",
