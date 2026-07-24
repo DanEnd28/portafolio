@@ -11,6 +11,17 @@ import {
   SiTelegram,
   SiGooglecalendar,
   SiClaude,
+  SiRedis,
+  SiMui,
+  SiBootstrap,
+  SiHtml5,
+  SiCss,
+  SiVite,
+  SiDocker,
+  SiGithub,
+  SiLinux,
+  SiRender,
+  SiMysql,
 } from 'react-icons/si'
 
 // Logo custom para GoHighLevel (no está en la librería de iconos).
@@ -43,4 +54,15 @@ export const BRAND = {
   gcalendar: { Icon: SiGooglecalendar, color: '#4285F4' },
   ai: { Icon: SiClaude, color: '#D97757' },
   ghl: { Icon: GhlIcon, color: '#2DD4BF' },
+  redis: { Icon: SiRedis, color: '#FF4438' },
+  mui: { Icon: SiMui, color: '#007FFF' },
+  bootstrap: { Icon: SiBootstrap, color: '#7952B3' },
+  html5: { Icon: SiHtml5, color: '#E34F26' },
+  css: { Icon: SiCss, color: '#663399' },
+  vite: { Icon: SiVite, color: '#646CFF' },
+  docker: { Icon: SiDocker, color: '#2496ED' },
+  github: { Icon: SiGithub, color: '#8b949e' },
+  linux: { Icon: SiLinux, color: '#FCC624' },
+  render: { Icon: SiRender, color: '#8b5cf6' },
+  mysql: { Icon: SiMysql, color: '#4479A1' },
 }

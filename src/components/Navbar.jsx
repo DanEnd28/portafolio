@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 
-const SECTIONS = [
+import { SECTIONS } from '../data/content'
+
+// Construye el menú según las secciones activas en content.js.
+const NAV = [
   { id: 'sobre-mi', label: 'Sobre mí' },
   { id: 'experiencia', label: 'Experiencia' },
-  { id: 'proyectos', label: 'Proyectos' },
-  { id: 'frontend', label: 'Frontend' },
+  SECTIONS.proyectosAutomatizacion && { id: 'proyectos', label: 'Proyectos' },
+  SECTIONS.proyectosFrontend && { id: 'frontend', label: 'Frontend' },
   { id: 'stack', label: 'Stack' },
   { id: 'contacto', label: 'Contacto' },
-]
+].filter(Boolean)
 
 export default function Navbar({ theme, onToggleTheme }) {
   const [open, setOpen] = useState(false)
@@ -34,7 +37,7 @@ export default function Navbar({ theme, onToggleTheme }) {
         </a>
 
         <div className="hidden items-center gap-6 md:flex">
-          {SECTIONS.map((s) => (
+          {NAV.map((s) => (
             <a
               key={s.id}
               href={`#${s.id}`}
@@ -62,7 +65,7 @@ export default function Navbar({ theme, onToggleTheme }) {
 
       {open && (
         <div className="border-t border-slate-200 bg-white px-6 py-3 md:hidden dark:border-white/10 dark:bg-[#0a0f1a]">
-          {SECTIONS.map((s) => (
+          {NAV.map((s) => (
             <a
               key={s.id}
               href={`#${s.id}`}

@@ -1,16 +1,7 @@
 import { useState } from 'react'
 import Section from './Section'
-import { LINKS } from '../data/content'
-import { FaEnvelope, FaLinkedin, FaGithub } from 'react-icons/fa6'
-import { SiWhatsapp, SiUpwork } from 'react-icons/si'
-
-const CHANNELS = [
-  { key: 'email', label: 'Email', value: LINKS.email, href: `mailto:${LINKS.email}`, Icon: FaEnvelope, color: '#22d3ee' },
-  { key: 'linkedin', label: 'LinkedIn', value: 'Conectemos', href: LINKS.linkedin, Icon: FaLinkedin, color: '#0A66C2' },
-  { key: 'github', label: 'GitHub', value: 'github.com/DanEnd28', href: LINKS.github, Icon: FaGithub, color: '#8b949e' },
-  { key: 'upwork', label: 'Upwork', value: 'Perfil freelance', href: LINKS.upwork, Icon: SiUpwork, color: '#6FDA44' },
-  { key: 'whatsapp', label: 'WhatsApp', value: '+58 422-4543543', href: LINKS.whatsapp, Icon: SiWhatsapp, color: '#25D366' },
-]
+import { LINKS, SOCIALS } from '../data/content'
+import { socialIcon } from './SocialIcons'
 
 export default function Contact() {
   const webhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL
@@ -46,33 +37,37 @@ export default function Contact() {
   return (
     <Section id="contacto" label="// 08 · Hablemos" title="Contacto">
       <div className="grid gap-10 md:grid-cols-2">
-        {/* Canales de contacto con logos */}
+        {/* Canales de contacto (desde SOCIALS) */}
         <div>
           <p className="mb-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
-            ¿Tienes una automatización, un agente de IA o una interfaz en mente? Escríbeme.
+            ¿Tienes un proyecto, una vacante o una idea en mente? Escríbeme — respondo
+            rápido y me adapto a lo que necesites.
           </p>
           <div className="space-y-3">
-            {CHANNELS.map(({ key, label, value, href, Icon, color }) => (
-              <a
-                key={key}
-                href={href}
-                target={key === 'email' ? undefined : '_blank'}
-                rel="noreferrer"
-                className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-white/[0.03]"
-              >
-                <span
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-                  style={{ backgroundColor: `${color}1a`, color }}
+            {SOCIALS.map(({ key, label, value, href, icon, color }) => {
+              const Icon = socialIcon(icon)
+              return (
+                <a
+                  key={key}
+                  href={href}
+                  target={key === 'email' ? undefined : '_blank'}
+                  rel="noreferrer"
+                  className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-white/[0.03]"
                 >
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block font-mono text-xs text-slate-500">{label}</span>
-                  <span className="block truncate text-sm font-medium">{value}</span>
-                </span>
-                <span className="ml-auto text-slate-400 transition-transform group-hover:translate-x-1">↗</span>
-              </a>
-            ))}
+                  <span
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+                    style={{ backgroundColor: `${color}1a`, color }}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-mono text-xs text-slate-500">{label}</span>
+                    <span className="block truncate text-sm font-medium">{value}</span>
+                  </span>
+                  <span className="ml-auto text-slate-400 transition-transform group-hover:translate-x-1">↗</span>
+                </a>
+              )
+            })}
           </div>
         </div>
 

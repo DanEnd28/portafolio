@@ -1,7 +1,7 @@
-import { LINKS, PROFILE, PROFILES } from '../data/content'
+import { PROFILE, PROFILES, SOCIALS } from '../data/content'
 import ProfileTabs from './ProfileTabs'
-import { FaLinkedin, FaGithub, FaArrowRightLong, FaLocationDot, FaDownload } from 'react-icons/fa6'
-import { SiUpwork } from 'react-icons/si'
+import { socialIcon } from './SocialIcons'
+import { FaArrowRightLong, FaLocationDot, FaDownload } from 'react-icons/fa6'
 
 export default function Hero({ profile, onChangeProfile }) {
   const p = PROFILES[profile]
@@ -21,6 +21,10 @@ export default function Hero({ profile, onChangeProfile }) {
       <div
         aria-hidden
         className="pointer-events-none absolute right-0 top-24 h-72 w-72 rounded-full bg-accent/20 blur-[100px] dark:bg-accent/25"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-10 top-40 h-64 w-64 rounded-full bg-accent2/20 blur-[110px] dark:bg-accent2/25"
       />
 
       <div className="relative mx-auto max-w-5xl px-6">
@@ -72,15 +76,20 @@ export default function Hero({ profile, onChangeProfile }) {
               <a href={PROFILE.cv} download className="btn btn-ghost">
                 <FaDownload /> Descargar CV
               </a>
-              <a href={LINKS.upwork} target="_blank" rel="noreferrer" className="btn btn-ghost">
-                <SiUpwork className="text-[#6FDA44]" /> Upwork
-              </a>
-              <a href={LINKS.linkedin} target="_blank" rel="noreferrer" className="btn btn-ghost">
-                <FaLinkedin className="text-[#0A66C2]" /> LinkedIn
-              </a>
-              <a href={LINKS.github} target="_blank" rel="noreferrer" className="btn btn-ghost">
-                <FaGithub /> GitHub
-              </a>
+              {SOCIALS.filter((s) => s.key !== 'email').map((s) => {
+                const Icon = socialIcon(s.icon)
+                return (
+                  <a
+                    key={s.key}
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-ghost"
+                  >
+                    <Icon style={{ color: s.color }} /> {s.label}
+                  </a>
+                )
+              })}
             </div>
           </div>
 
