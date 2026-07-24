@@ -46,7 +46,7 @@ function TechCard({ name, brand }) {
 
 export default function TechStack() {
   return (
-    <Section id="stack" label="// 04 · Herramientas" title="Stack técnico">
+    <Section id="stack" label="// 06 · Herramientas" title="Stack técnico">
       <div className="space-y-10">
         {GROUPS.map((group) => (
           <div key={group.title}>

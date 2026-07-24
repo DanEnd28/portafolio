@@ -3,7 +3,7 @@ import { PROJECTS } from '../data/content'
 
 export default function Projects() {
   return (
-    <Section id="proyectos" label="// 03 · Trabajo" title="Proyectos">
+    <Section id="proyectos" label="// 04 · Automatización & IA" title="Proyectos de automatización">
       <div className="grid gap-4 sm:grid-cols-2">
         {PROJECTS.map((p) => (
           <article key={p.title} className="card flex flex-col">

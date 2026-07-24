@@ -1,5 +1,5 @@
 import { LINKS, PROFILE } from '../data/content'
-import { FaLinkedin, FaGithub, FaArrowRightLong, FaLocationDot } from 'react-icons/fa6'
+import { FaLinkedin, FaGithub, FaArrowRightLong, FaLocationDot, FaDownload } from 'react-icons/fa6'
 import { SiUpwork } from 'react-icons/si'
 
 export default function Hero() {
@@ -55,6 +55,9 @@ export default function Hero() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="#contacto" className="btn btn-primary">
               Contacto <FaArrowRightLong />
+            </a>
+            <a href={PROFILE.cv} download className="btn btn-ghost">
+              <FaDownload /> Descargar CV
             </a>
             <a href={LINKS.upwork} target="_blank" rel="noreferrer" className="btn btn-ghost">
               <SiUpwork className="text-[#6FDA44]" /> Upwork
