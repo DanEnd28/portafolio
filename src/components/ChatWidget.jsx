@@ -11,7 +11,15 @@ export default function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
-  const [messages, setMessages] = useState([{ role: 'bot', text: CHAT.welcome }])
+  const [messages, setMessages] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('chat_messages') || 'null')
+      if (Array.isArray(saved) && saved.length) return saved
+    } catch {
+      /* noop */
+    }
+    return [{ role: 'bot', text: CHAT.welcome }]
+  })
   const [visitor, setVisitor] = useState(null) // { name, phone }
   const [form, setForm] = useState({ name: '', phone: '' })
   const sessionId = useRef(null)
@@ -36,6 +44,19 @@ export default function ChatWidget() {
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, open, visitor])
+
+  // Persiste la conversación para que sobreviva a recargas.
+  useEffect(() => {
+    localStorage.setItem('chat_messages', JSON.stringify(messages))
+  }, [messages])
+
+  const reset = () => {
+    localStorage.removeItem('chat_messages')
+    localStorage.removeItem('chat_visitor')
+    setVisitor(null)
+    setForm({ name: '', phone: '' })
+    setMessages([{ role: 'bot', text: CHAT.welcome }])
+  }
 
   if (!CHAT.enabled || !webhook) return null
 
@@ -114,6 +135,14 @@ export default function ChatWidget() {
               <p className="truncate text-sm font-semibold">{CHAT.title}</p>
               <p className="truncate text-xs text-white/80">{CHAT.subtitle}</p>
             </div>
+            <button
+              onClick={reset}
+              title="Reiniciar conversación"
+              aria-label="Reiniciar conversación"
+              className="ml-auto rounded-lg bg-white/15 px-2 py-1 text-sm hover:bg-white/25"
+            >
+              ↺
+            </button>
           </div>
 
           {/* Mensajes */}
