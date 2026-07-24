@@ -151,7 +151,8 @@ complementario). Cámbialos ahí y se aplican en todo el sitio.
 
 ## 📬 Formulario de contacto (opcional)
 
-El formulario puede enviar los mensajes a un **webhook de n8n**:
+El formulario (nombre, email, empresa, teléfono, tipo y mensaje) puede enviar los
+mensajes a un **webhook de n8n**:
 
 1. Copia `.env.example` a `.env`.
 2. Rellena `VITE_N8N_WEBHOOK_URL` con la URL de tu webhook.
@@ -159,7 +160,20 @@ El formulario puede enviar los mensajes a un **webhook de n8n**:
 Si la variable está vacía, el botón abre el cliente de correo del visitante como
 respaldo (no se hardcodea ninguna URL real).
 
-> En Vercel, esta variable se configura en **Settings → Environment Variables**.
+## 🤖 Asistente de chat (widget flotante)
+
+Hay un widget de chat (abajo a la derecha, morado) conectado a un **asistente de IA en
+n8n** que responde preguntas sobre Danny, guarda la conversación en Supabase y registra
+todo en Google Sheets.
+
+1. Se activa con la variable `VITE_N8N_CHAT_WEBHOOK_URL` (si está vacía, el widget no
+   aparece).
+2. Textos y activación del widget se editan en `CHAT` dentro de `src/data/content.js`.
+3. El workflow de n8n, su prompt y la guía completa están en la carpeta
+   **`../asistente-personal-n8n/`**.
+
+> En Vercel, ambas variables (`VITE_N8N_WEBHOOK_URL` y `VITE_N8N_CHAT_WEBHOOK_URL`) se
+> configuran en **Settings → Environment Variables** (y luego un **Redeploy**).
 
 ---
 
