@@ -8,6 +8,9 @@ Sheets**.
 - **Webhook / variable:** `VITE_N8N_CHAT_WEBHOOK_URL`
 - **Archivos:** `asistente-danny.json` (workflow) · `prompt-sistema.md` (system prompt editable)
 
+> 👉 **Guía paso a paso detallada** (cómo sacar la API de Gemini, la credencial de
+> Google Sheets y qué columnas crear): **[`CONFIGURACION.md`](./CONFIGURACION.md)**.
+>
 > Requisitos comunes (credenciales, hoja, CORS, env): ver el [README de `n8n/`](../README.md).
 
 ---
