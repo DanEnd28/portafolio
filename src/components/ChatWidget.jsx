@@ -3,33 +3,52 @@ import { CHAT } from '../data/content'
 import { FaXmark, FaPaperPlane } from 'react-icons/fa6'
 
 // Widget de chat flotante conectado a un webhook de n8n.
-// Envía { message, sessionId, history } por POST y espera una respuesta
-// { reply } | { messages: [...] } | { output } | texto plano.
+// Antes de chatear pide nombre + teléfono (lead), y los envía en cada mensaje
+// para que n8n registre la conversación por visitante.
+// POST { message, sessionId, visitor:{name,phone}, history } → { reply } | { messages } | { output } | texto.
 export default function ChatWidget() {
   const webhook = import.meta.env.VITE_N8N_CHAT_WEBHOOK_URL
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
   const [messages, setMessages] = useState([{ role: 'bot', text: CHAT.welcome }])
+  const [visitor, setVisitor] = useState(null) // { name, phone }
+  const [form, setForm] = useState({ name: '', phone: '' })
   const sessionId = useRef(null)
   const endRef = useRef(null)
-  const listRef = useRef(null)
 
-  // Session id estable por visitante (persistente en el navegador).
+  // Session id + visitante guardados en el navegador.
   useEffect(() => {
     let id = localStorage.getItem('chat_session')
     if (!id) {
-      id = (crypto.randomUUID?.() || String(Math.random()).slice(2))
+      id = crypto.randomUUID?.() || String(Math.random()).slice(2)
       localStorage.setItem('chat_session', id)
     }
     sessionId.current = id
+    try {
+      const saved = JSON.parse(localStorage.getItem('chat_visitor') || 'null')
+      if (saved?.name) setVisitor(saved)
+    } catch {
+      /* noop */
+    }
   }, [])
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, open])
+  }, [messages, open, visitor])
 
   if (!CHAT.enabled || !webhook) return null
+
+  const startChat = (e) => {
+    e.preventDefault()
+    const name = form.name.trim()
+    const phone = form.phone.trim()
+    if (!name || !phone) return
+    const v = { name, phone }
+    localStorage.setItem('chat_visitor', JSON.stringify(v))
+    setVisitor(v)
+    setMessages((m) => [...m, { role: 'bot', text: `¡Gracias, ${name}! 🙌 ¿En qué puedo ayudarte sobre Danny?` }])
+  }
 
   const send = async (e) => {
     e.preventDefault()
@@ -45,7 +64,7 @@ export default function ChatWidget() {
       const res = await fetch(webhook, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, sessionId: sessionId.current, history }),
+        body: JSON.stringify({ message: text, sessionId: sessionId.current, visitor, history }),
       })
       const raw = await res.text()
       let reply = raw
@@ -58,7 +77,7 @@ export default function ChatWidget() {
           data.text ??
           raw
       } catch {
-        /* respuesta en texto plano */
+        /* texto plano */
       }
       setMessages((m) => [...m, { role: 'bot', text: String(reply).trim() || '…' }])
     } catch {
@@ -71,13 +90,16 @@ export default function ChatWidget() {
     }
   }
 
+  const inputCls =
+    'w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-accent2 dark:border-white/15 dark:focus:border-accent2'
+
   return (
     <>
       {/* Botón flotante */}
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="Abrir asistente"
-        className="fixed bottom-5 right-5 z-[90] flex h-14 w-14 items-center justify-center rounded-full bg-accent2 text-white shadow-lg shadow-accent2/30 transition-transform hover:scale-105 dark:bg-accent2"
+        className="fixed bottom-5 right-5 z-[90] flex h-14 w-14 items-center justify-center rounded-full bg-accent2 text-white shadow-lg shadow-accent2/30 transition-transform hover:scale-105"
       >
         {open ? <FaXmark className="h-5 w-5" /> : <span className="text-2xl">💬</span>}
       </button>
@@ -95,7 +117,7 @@ export default function ChatWidget() {
           </div>
 
           {/* Mensajes */}
-          <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto p-4">
+          <div className="flex-1 space-y-3 overflow-y-auto p-4">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
@@ -119,23 +141,53 @@ export default function ChatWidget() {
             <div ref={endRef} />
           </div>
 
-          {/* Input */}
-          <form onSubmit={send} className="flex items-center gap-2 border-t border-slate-200 p-3 dark:border-white/10">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={CHAT.placeholder}
-              className="flex-1 rounded-full border border-slate-300 bg-transparent px-4 py-2 text-sm outline-none focus:border-accent2 dark:border-white/15"
-            />
-            <button
-              type="submit"
-              disabled={sending || !input.trim()}
-              aria-label="Enviar"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent2 text-white transition-opacity disabled:opacity-40"
-            >
-              <FaPaperPlane className="h-4 w-4" />
-            </button>
-          </form>
+          {/* Formulario previo (lead) o input de chat */}
+          {!visitor ? (
+            <form onSubmit={startChat} className="space-y-2 border-t border-slate-200 p-3 dark:border-white/10">
+              <p className="font-mono text-[11px] text-slate-500">
+                Déjame tu nombre y teléfono para que Danny pueda escribirte:
+              </p>
+              <input
+                value={form.name}
+                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                placeholder="Tu nombre"
+                required
+                className={inputCls}
+              />
+              <input
+                value={form.phone}
+                onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                placeholder="Tu teléfono / WhatsApp"
+                type="tel"
+                required
+                className={inputCls}
+              />
+              <button
+                type="submit"
+                disabled={!form.name.trim() || !form.phone.trim()}
+                className="w-full rounded-lg bg-accent2 px-4 py-2 text-sm font-medium text-white transition-opacity disabled:opacity-40"
+              >
+                Empezar a chatear
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={send} className="flex items-center gap-2 border-t border-slate-200 p-3 dark:border-white/10">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={CHAT.placeholder}
+                className="flex-1 rounded-full border border-slate-300 bg-transparent px-4 py-2 text-sm outline-none focus:border-accent2 dark:border-white/15"
+              />
+              <button
+                type="submit"
+                disabled={sending || !input.trim()}
+                aria-label="Enviar"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent2 text-white transition-opacity disabled:opacity-40"
+              >
+                <FaPaperPlane className="h-4 w-4" />
+              </button>
+            </form>
+          )}
         </div>
       )}
     </>

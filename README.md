@@ -151,14 +151,19 @@ complementario). Cámbialos ahí y se aplican en todo el sitio.
 
 ## 📬 Formulario de contacto (opcional)
 
-El formulario (nombre, email, empresa, teléfono, tipo y mensaje) puede enviar los
-mensajes a un **webhook de n8n**:
+El formulario (nombre, email, empresa, teléfono, tipo y mensaje) envía los datos al
+**webhook del workflow de contacto** de n8n (`n8n/contacto-portafolio.json`), que registra
+el lead en Google Sheets, te notifica por correo y auto-responde al visitante.
 
 1. Copia `.env.example` a `.env`.
-2. Rellena `VITE_N8N_WEBHOOK_URL` con la URL de tu webhook.
+2. Rellena **`VITE_N8N_WEBHOOK_URL`** con la URL del webhook de contacto.
 
 Si la variable está vacía, el botón abre el cliente de correo del visitante como
 respaldo (no se hardcodea ninguna URL real).
+
+> **¿Para qué es cada webhook?**
+> - `VITE_N8N_WEBHOOK_URL` → **formulario de contacto** (`contacto-portafolio.json`).
+> - `VITE_N8N_CHAT_WEBHOOK_URL` → **widget de chat / asistente** (`asistente-danny.json`).
 
 ## 🤖 Asistente de chat (widget flotante)
 
@@ -169,8 +174,9 @@ todo en Google Sheets.
 1. Se activa con la variable `VITE_N8N_CHAT_WEBHOOK_URL` (si está vacía, el widget no
    aparece).
 2. Textos y activación del widget se editan en `CHAT` dentro de `src/data/content.js`.
-3. El workflow de n8n, su prompt y la guía completa están en la carpeta
-   **`../asistente-personal-n8n/`**.
+3. El widget pide **nombre y teléfono** antes de chatear (así el lead queda registrado).
+4. Los workflows de n8n (chat y contacto), el prompt y la guía están en la carpeta
+   **`n8n/`** de este proyecto.
 
 > En Vercel, ambas variables (`VITE_N8N_WEBHOOK_URL` y `VITE_N8N_CHAT_WEBHOOK_URL`) se
 > configuran en **Settings → Environment Variables** (y luego un **Redeploy**).
