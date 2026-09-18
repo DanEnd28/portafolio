@@ -6,7 +6,7 @@ export default function WhatIDo({ profile, onChangeProfile }) {
   const p = PROFILES[profile]
 
   return (
-    <Section id="que-hago" label="// 02 · Servicios" title="Qué hago">
+    <Section id="que-hago" label="// 02 · Servicios" title="Qué ofrezco">
       <div className="mb-6">
         <ProfileTabs profile={profile} onChange={onChangeProfile} size="sm" />
       </div>
