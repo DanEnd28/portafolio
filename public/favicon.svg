@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#0a0f1a"/>
-  <text x="16" y="22" font-family="monospace" font-size="16" font-weight="700" fill="#22d3ee" text-anchor="middle">DE</text>
+  <rect x="1" y="1" width="27" height="27" rx="8" fill="#EDEDF0"/>
+  <text x="14.5" y="19.5" font-family="ui-monospace, Menlo, monospace" font-size="12" font-weight="600" letter-spacing="-0.5" fill="#0B0B0D" text-anchor="middle">DE</text>
+  <rect x="21" y="21" width="10" height="10" rx="3.5" fill="#6E6BFF" stroke="#0B0B0D" stroke-width="2"/>
 </svg>

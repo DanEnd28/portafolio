@@ -1,234 +1,152 @@
 # Portafolio — Danny Endara
 
-Portafolio web personal de **Danny Endara**, AI Automation Engineer (n8n · GoHighLevel · Agentes Conversacionales de IA).
+Portafolio web personal de **Danny Endara**, AI Automation & Full-Stack Developer (n8n · agentes de IA · sistemas web). Datos de perfil: `../00_DATOS-MAESTROS.md`.
 
-Single-page en **React + Vite + Tailwind CSS**, con modo claro/oscuro y estética técnica minimalista.
+Hecho con **Next.js 16 (App Router) + TypeScript + Tailwind CSS 4**. Bilingüe (`/en` y `/es`, generadas estáticamente), tema oscuro por defecto con modo claro, tipografía Geist / Geist Mono y paleta índigo.
 
 ---
 
 ## 🚀 Correr en local
 
-Requisitos: Node 18+ y npm.
+Requisitos: Node 20.9+ y npm.
 
 ```bash
 npm install
-npm run dev
+cp .env.example .env.local   # opcional: webhooks de n8n
+npm run dev                  # http://localhost:3000 → redirige a /en o /es
 ```
-
-Abre la URL que muestra la terminal (por defecto `http://localhost:5173`).
 
 Otros comandos:
 
 ```bash
-npm run build     # genera la versión de producción en /dist
-npm run preview   # sirve el build de producción en local para probarlo
+npm run build     # build de producción (.next/)
+npm run start     # sirve el build en local (npm run start -- -p 3417 para otro puerto)
+npm run lint      # ESLint
 ```
 
 ---
 
-## ✏️ Personalizar — todo desde `src/data/content.js`
+## 🌐 Rutas e idiomas
 
-**Regla general:** casi nada se edita en los componentes. Todo el contenido está en
-un solo archivo: **`src/data/content.js`**. Abajo, qué hace cada bloque.
+- **`/en`** (inglés, por defecto) y **`/es`** (español). Ambas se generan estáticamente.
+- **`/`** redirige según el idioma del navegador (`Accept-Language`); si el visitante ya eligió idioma con el selector EN/ES, se respeta (cookie `NEXT_LOCALE`). Lo hace `src/proxy.ts`.
+- El selector EN/ES cambia de ruta y **conserva `?perfil=` y el `#hash`**.
+- Cada idioma tiene su `title`, `description`, OpenGraph/Twitter con imagen propia (`src/app/[lang]/opengraph-image.tsx`) y `hreflang`.
 
-### 1. Identidad y contacto
+## 🎛️ Perfiles (IA · Frontend · TI)
 
-```js
-export const PROFILE = {
-  name: 'Danny Endara',
-  photo: '/foto-danny.jpg',     // archivo en public/
-  cv: '/CV-Danny-Endara.docx',  // archivo en public/
-  availableLabel: 'Disponible', // texto del indicador verde
-  location: 'Valencia, Venezuela · Remoto',
-}
+Las pestañas del hero, "Sobre mí" y "Qué hago" van sincronizadas y se guardan en la URL:
 
-export const LINKS = {           // solo las URLs base
-  email: '...', linkedin: '...', github: '...', upwork: '...', whatsapp: '...',
-}
-```
-
-- **Foto:** reemplaza `public/foto-danny.jpg` por la tuya (queda cuadrada ~1:1).
-- **CV:** hay un `.docx` en `public/`. Para un PDF, expórtalo, ponlo en
-  `public/CV-Danny-Endara.pdf` y cambia `PROFILE.cv` a `'/CV-Danny-Endara.pdf'`.
-
-### 2. Botones y redes sociales (agregar / quitar)
-
-La lista `SOCIALS` controla **los botones del hero, las tarjetas de Contacto y los
-iconos del footer** a la vez. Para **agregar una red nueva**, copia una línea del array:
-
-```js
-export const SOCIALS = [
-  { key: 'email',    label: 'Email',    value: LINKS.email, href: `mailto:${LINKS.email}`, icon: 'email',    color: '#22d3ee' },
-  { key: 'instagram',label: 'Instagram',value: '@tu_usuario', href: 'https://instagram.com/tu_usuario', icon: 'instagram', color: '#E4405F' },
-]
-```
-
-- `icon`: nombre de un icono ya disponible: `email`, `linkedin`, `github`, `upwork`,
-  `whatsapp`, `instagram`, `x`, `youtube`, `website`, `telegram`.
-- ¿Necesitas otro icono? Ábrelo en `src/components/SocialIcons.jsx`, impórtalo de
-  `react-icons` y agrégalo al mapa `MAP`. Nada más.
-- `value`: el texto que se ve en la tarjeta de contacto. `color`: color del icono.
-
-### 3. Perfiles / enfoques (IA · Frontend · TI)
-
-El selector del hero cambia el **hero, "Sobre mí" y "Qué hago"** entre tres enfoques
-definidos en `PROFILES`. Puedes compartir un enlace directo con `?perfil=`:
-
-- `tuweb.vercel.app/` o `?perfil=ia` → IA & Automatización (por defecto)
-- `?perfil=frontend` → Frontend
-- `?perfil=ti` → TI & Sistemas (para enviar a empresas presenciales tipo Chronus)
-
-Cada perfil define: `roles`, `tagline`, `intro`, `about` (párrafos), `chipsLabel` +
-`chips`, y `services`. **Los chips son un simple array de texto** — cambia el título con
-`chipsLabel` y los chips con `chips`:
-
-```js
-chipsLabel: 'Rubros con los que he trabajado',
-chips: ['Salud & Estética', 'Bienes Raíces', 'Educación', 'y más'],
-```
-
-### 4. Activar / desactivar secciones
-
-```js
-export const SECTIONS = {
-  proyectosAutomatizacion: false, // ← desactivada por ahora
-  proyectosFrontend: true,
-  educacion: true,
-}
-```
-
-Pon `true`/`false` según lo que quieras mostrar. Al desactivar una sección, también
-desaparece del menú superior automáticamente. **Los proyectos de automatización están
-en `false`** hasta que tengas las imágenes listas: cámbialo a `true` para mostrarlos.
-
-### 5. Imágenes y videos de proyectos (carrusel dinámico)
-
-Cada proyecto (en `PROJECTS` y `FRONTEND_PROJECTS`) tiene un array `images`. Pon los
-archivos en `public/proyectos/` y añade sus rutas (imágenes **y/o** videos):
-
-```js
-images: ['/proyectos/demo.mp4', '/proyectos/captura-1.png', '/proyectos/captura-2.png'],
-```
-
-El componente `Gallery` decide solo qué mostrar:
-
-- **1 solo archivo** → se muestra estático.
-- **varios archivos** → carrusel que avanza **solo** (se pausa al pasar el mouse, con el
-  lightbox abierto o mientras un video reproduce) y también con flechas/puntos.
-- **video** (`.mp4`, `.webm`, `.mov`) → se detecta por la extensión, se reproduce con
-  controles y se marca con la etiqueta ▶ VIDEO.
-- **click / ampliar** → abre el lightbox tipo galería (zoom) con navegación y teclado
-  (← → Esc).
-- **array vacío** → no muestra nada (sin placeholder), como en el e-commerce.
-
-> Consejo: usa nombres sin espacios ni paréntesis (`alfanar-1.png`, no `alfanar (1).png`).
-
-### 6. Stack técnico (agregar tecnologías)
-
-`TECH_STACK` es un array de grupos; cada item es `{ name, brand }`:
-
-```js
-{ name: 'React', brand: 'react' },   // con logo de marca
-{ name: 'Retell AI (voz)' },         // sin brand → chip con punto morado
-```
-
-- `brand` es una clave del mapa `BRAND` en `src/components/BrandIcons.jsx` (define el
-  logo y color). Si omites `brand`, se muestra como chip de texto.
-- Para un logo nuevo: impórtalo de `react-icons/si` en `BrandIcons.jsx` y añádelo al
-  mapa `BRAND`.
-
-### 7. Experiencia, educación, idiomas
-
-`EXPERIENCE`, `EDUCATION`, `CERTS` y `LANGUAGES` son arrays directos: edita el texto,
-las fechas y los `tags` (que también son arrays de texto).
-
-### 8. Colores
-
-Se definen en `tailwind.config.js`: `accent` (cian, principal) y `accent2` (morado,
-complementario). Cámbialos ahí y se aplican en todo el sitio.
+- `/en` o `/en?perfil=ia` → IA & Automatización (por defecto)
+- `/en?perfil=frontend` → Frontend
+- `/es?perfil=ti` → TI & Sistemas
 
 ---
 
-## 📬 Formulario de contacto (opcional)
+## ✏️ Personalizar — todo desde `src/content/`
 
-El formulario (nombre, email, empresa, teléfono, tipo y mensaje) envía los datos al
-**webhook del workflow de contacto** de n8n (`n8n/contacto-portafolio.json`), que registra
-el lead en Google Sheets, te notifica por correo y auto-responde al visitante.
+**Regla general:** no hace falta tocar componentes. El contenido está en tres archivos:
 
-1. Copia `.env.example` a `.env`.
-2. Rellena **`VITE_N8N_WEBHOOK_URL`** con la URL del webhook de contacto.
+| Archivo | Qué tiene |
+|---|---|
+| `src/content/shared.ts` | Lo que no depende del idioma: foto, CV, enlaces y redes, secciones visibles, proyectos (slug, stack, **video**), capturas frontend, logos del stack y del carrusel. |
+| `src/content/es.ts` | Todos los textos en español. |
+| `src/content/en.ts` | Todos los textos en inglés. |
 
-Si la variable está vacía, el botón abre el cliente de correo del visitante como
-respaldo (no se hardcodea ninguna URL real).
+`en.ts` y `es.ts` tienen la misma estructura (tipo `Dictionary` en `src/content/types.ts`): si agregas un campo en uno y no en el otro, `npm run build` te avisa.
 
-> **¿Para qué es cada webhook?**
-> - `VITE_N8N_WEBHOOK_URL` → **formulario de contacto** (`contacto-portafolio.json`).
-> - `VITE_N8N_CHAT_WEBHOOK_URL` → **widget de chat / asistente** (`asistente-danny.json`).
+### Identidad, CV y redes (`shared.ts`)
+- **Foto:** reemplaza `public/foto-danny.jpg` (se recorta 4:5).
+- **CV:** `PROFILE.cv`. Para PDF, pon `public/CV-Danny-Endara.pdf` y cambia la ruta.
+- **Redes:** `SOCIALS` controla los botones del hero, las filas de Contacto y los iconos del footer. Los iconos disponibles están en `src/components/icons.tsx` (`SocialIcon`).
+
+### Secciones visibles (`shared.ts`)
+```ts
+export const SECTIONS = { proyectosAutomatizacion: true, proyectosFrontend: true, educacion: true }
+```
+Al poner `false`, la sección también sale del menú.
+
+### Perfiles, servicios, experiencia (`en.ts` / `es.ts`)
+Cada perfil (`profiles.ia`, `profiles.frontend`, `profiles.ti`) define `label`, `roles`, `tagline`, `intro`, `about` (el primer párrafo es la frase destacada), `chipsLabel` + `chips`, `stats` (opcional) y `services` (con `icon`, ver la lista `IconName` en `types.ts`).
+
+### Proyectos de automatización y videos
+- Datos en `PROJECTS` (`shared.ts`), textos por slug en `projects` (`en.ts` / `es.ts`).
+- Cada tarjeta muestra el diagrama del workflow (`src/lib/canvas.ts`) como póster.
+- **Video opcional:** guarda el MP4 en `public/videos/<slug>.mp4` y pon `video: '/videos/<slug>.mp4'` en ese proyecto. Se reproduce en bucle, sin sonido, solo cuando la tarjeta está a la vista, y no se reproduce con "reducir movimiento". Recomendado: 16:9, 1280×720, H.264, menos de 4 MB.
+- Slugs: `ai-booking-agent-dental`, `multichannel-messaging-backend`, `ghl-scheduling-tools`, `mcp-multitenant-clinic`, `n8n-error-handler`.
+
+### Proyectos frontend
+`FRONTEND_PROJECTS` (`shared.ts`): `image` es la captura de portada en `public/proyectos/` (o `null` para un icono). Textos en `frontendProjects`.
+
+### Stack y carrusel
+- `TECH_STACK` (`shared.ts`): tecnologías con logo por grupo. El resto ("También") va en `stack.groups` de `en.ts` / `es.ts`.
+- `MARQUEE` (`shared.ts`): el carrusel bajo el hero.
+- Logos: SVG de [simple-icons](https://simpleicons.org) en `public/logos/<nombre>.svg` (se tiñen solos según el tema).
+
+### Colores y estilos
+Los tokens del diseño (colores, radios, sombras, grano) están como variables CSS al inicio de `src/app/globals.css`, para tema oscuro y claro, y expuestos a Tailwind en el bloque `@theme inline`.
+
+---
+
+## 📬 Formulario de contacto
+
+Envía `nombre, email, empresa, telefono, tipo, mensaje` al webhook del workflow de contacto (`n8n/contacto/contacto-portafolio.json`), que registra el lead en Google Sheets, te notifica y auto-responde. El valor de `tipo` llega siempre en español aunque la página esté en inglés.
+
+- Variable: **`NEXT_PUBLIC_N8N_WEBHOOK_URL`**.
+- Si está vacía, el botón abre el correo del visitante con el mensaje ya escrito.
 
 ## 🤖 Asistente de chat (widget flotante)
 
-Hay un widget de chat (abajo a la derecha, morado) conectado a un **asistente de IA en
-n8n** que responde preguntas sobre Danny, guarda la conversación en Supabase y registra
-todo en Google Sheets.
+Conectado al asistente de n8n (`n8n/asistente-chat/`), que responde sobre Danny, guarda la conversación y la registra en Google Sheets.
 
-1. Se activa con la variable `VITE_N8N_CHAT_WEBHOOK_URL` (si está vacía, el widget no
-   aparece).
-2. Textos y activación del widget se editan en `CHAT` dentro de `src/data/content.js`.
-3. El widget pide **nombre y teléfono** antes de chatear (así el lead queda registrado).
-4. Los workflows de n8n (chat y contacto), el prompt y la guía están en la carpeta
-   **`n8n/`** de este proyecto.
+- Variable: **`NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL`**. Si está vacía, el widget no aparece.
+- Pide **nombre y teléfono** antes de chatear; la conversación sobrevive a recargas (localStorage) y tiene botón de reinicio.
+- Activación en `CHAT` (`shared.ts`); textos en el bloque `chat` de `en.ts` / `es.ts`.
+- En móvil el botón aparece al bajar del hero, para no tapar su contenido.
 
-> En Vercel, ambas variables (`VITE_N8N_WEBHOOK_URL` y `VITE_N8N_CHAT_WEBHOOK_URL`) se
-> configuran en **Settings → Environment Variables** (y luego un **Redeploy**).
+> **Variables de entorno:** `NEXT_PUBLIC_N8N_WEBHOOK_URL` (formulario), `NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL` (chat) y, opcional, `NEXT_PUBLIC_SITE_URL` (URL pública para OpenGraph/hreflang; en Vercel se usa el dominio de producción si falta). Ver `.env.example`. Como son `NEXT_PUBLIC_*`, se incrustan al compilar: tras cambiarlas hay que hacer **Redeploy**.
 
 ---
 
 ## ☁️ Desplegar en Vercel
 
-Proyecto Vite estándar, sin configuración especial de servidor:
+`vercel.json` fuerza el preset de Next.js (`{"framework": "nextjs"}`), porque el proyecto de Vercel estaba configurado como Vite.
 
-1. Sube el repo a GitHub.
-2. En [vercel.com](https://vercel.com): **Add New → Project → Import** tu repo.
-3. Framework: **Vite** (detectado automáticamente). Deploy.
+1. En Vercel → **Settings → Environment Variables**: crea `NEXT_PUBLIC_N8N_WEBHOOK_URL` y `NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL` (los mismos valores que tenían las antiguas `VITE_…`; puedes borrar las `VITE_…`).
+2. En **Settings → Build & Development**: si quedó "Output Directory = dist" como override, quítalo.
+3. Haz push o **Redeploy**.
 
-Guía paso a paso detallada: **`../DESPLIEGUE_VERCEL.md`**.
+Guía general: **`../DESPLIEGUE_VERCEL.md`**.
 
 ---
 
 ## 🗂️ Estructura
 
 ```
-portafolio-danny/
+portafolio/
+├── n8n/                          # workflows del chat y del formulario
 ├── public/
-│   └── favicon.svg
+│   ├── foto-danny.jpg · CV-Danny-Endara.docx · favicon.svg
+│   ├── logos/                    # SVG de simple-icons
+│   ├── proyectos/                # capturas frontend
+│   └── videos/                   # (opcional) <slug>.mp4 de proyectos
 ├── src/
+│   ├── app/
+│   │   ├── globals.css           # tokens del diseño + estilos
+│   │   └── [lang]/
+│   │       ├── layout.tsx        # <html lang>, metadata por idioma, tema sin parpadeo
+│   │       ├── page.tsx          # arma las secciones
+│   │       ├── opengraph-image.tsx
+│   │       └── twitter-image.tsx
 │   ├── components/
-│   │   ├── Navbar.jsx
-│   │   ├── Hero.jsx
-│   │   ├── ProfileTabs.jsx      # selector de enfoque (IA/Frontend/TI)
-│   │   ├── Section.jsx
-│   │   ├── About.jsx
-│   │   ├── WhatIDo.jsx
-│   │   ├── Experience.jsx
-│   │   ├── Gallery.jsx          # carrusel + lightbox dinámico
-│   │   ├── Projects.jsx
-│   │   ├── FrontendProjects.jsx
-│   │   ├── BrandIcons.jsx       # logos del stack
-│   │   ├── SocialIcons.jsx      # iconos de redes
-│   │   ├── TechStack.jsx
-│   │   ├── Education.jsx
-│   │   ├── Contact.jsx
-│   │   └── Footer.jsx
-│   ├── data/
-│   │   └── content.js
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-├── index.html
-├── package.json
-├── vite.config.js
-├── tailwind.config.js
-├── postcss.config.js
+│   │   ├── sections.tsx          # secciones (server components)
+│   │   ├── icons.tsx             # iconos de trazo y de redes
+│   │   └── client/               # Nav, pestañas, chat, formulario, video, efectos
+│   ├── content/                  # ← EDITA AQUÍ: shared.ts, en.ts, es.ts, types.ts
+│   ├── lib/canvas.ts             # diagramas n8n de los proyectos
+│   └── proxy.ts                  # "/" → /en o /es
 ├── .env.example
-└── .gitignore
+├── next.config.ts
+├── vercel.json
+└── package.json
 ```
