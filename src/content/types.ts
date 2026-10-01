@@ -30,6 +30,8 @@ export type IconName =
 
 export interface Service {
   icon: IconName
+  /** Imagen de referencia en public/services/ (p. ej. '/services/ia-atencion.webp'). */
+  image: string
   title: string
   desc: string
   tag: string
@@ -59,7 +61,8 @@ export interface ExperienceItem {
   company: string
   period: string
   current?: boolean
-  desc: string
+  /** Viñetas cortas: qué lograste, una idea por línea. */
+  points: string[]
   tags: string[]
 }
 
@@ -92,6 +95,7 @@ export interface Dictionary {
   sections: {
     about: { kicker: string; title: string }
     what: { kicker: string; title: string; lead: string }
+    process: { kicker: string; title: string; lead: string }
     experience: { kicker: string; title: string }
     projects: { kicker: string; title: string; lead: string }
     frontend: { kicker: string; title: string }
@@ -102,6 +106,7 @@ export interface Dictionary {
   profileTabsLabel: string
   profiles: Record<ProfileKey, ProfileText>
   servicesCta: { title: string; button: string }
+  process: { title: string; desc: string }[]
   experienceNow: string
   experience: ExperienceItem[]
   projectLabels: { problem: string; result: string; animation: string; diagram: string }
@@ -114,7 +119,7 @@ export interface Dictionary {
     degree: string
     place: string
     period: string
-    note: string
+    note?: string
     certsLabel: string
     certs: string[]
     langsLabel: string

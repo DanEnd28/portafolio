@@ -227,6 +227,25 @@ h2 { margin: 0; font-weight: 600; font-size: clamp(32px, 4vw, 50px); line-height
 .svc.cta { justify-content: space-between; background: var(--surface-2); }
 .svc.cta h3 { margin-top: 0; font-size: 22px; line-height: 1.2; }
 .svc.cta .btn { align-self: flex-start; }
+.svc-img { margin: -26px -26px 22px; aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--border); border-radius: inherit; border-bottom-left-radius: 0; border-bottom-right-radius: 0; background: var(--surface-2); }
+.svc-img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.svc:hover .svc-img img { transform: scale(1.03); }
+.svc-img + .ico { display: none; }
+@media (prefers-reduced-motion: reduce) { .svc:hover .svc-img img { transform: none; } }
+
+/* Cómo trabajo */
+.proc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; counter-reset: none; }
+.proc-step { padding: 24px; position: relative; }
+.proc-n { font: 500 12px/1 var(--mono); color: var(--accent-ink); letter-spacing: .04em; }
+.proc-step h3 { margin: 18px 0 8px; font-size: 18px; font-weight: 600; letter-spacing: -0.025em; }
+.proc-step p { margin: 0; font-size: 15px; color: var(--text-2); line-height: 1.6; text-wrap: pretty; }
+@media (max-width: 960px) { .proc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .proc { grid-template-columns: 1fr; } }
+
+/* Experiencia en viñetas */
+.xp-points { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.xp-points li { position: relative; padding-left: 16px; font-size: 15.5px; color: var(--text-2); line-height: 1.6; text-wrap: pretty; }
+.xp-points li::before { content: ""; position: absolute; left: 0; top: .72em; width: 6px; height: 6px; border-radius: 2px; background: var(--accent); opacity: .85; }
 
 /* Experience: tabla de 3 columnas */
 .xp { border-top: 1px solid var(--border-3); }

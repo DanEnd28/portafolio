@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import type { Dictionary } from '@/content/types'
 import { Icon } from '../icons'
 import { useProfile } from './profile'
@@ -76,7 +77,7 @@ export function AboutSwap({ profiles }: { profiles: Profiles }) {
   )
 }
 
-/** Qué hago: tarjetas de servicios del perfil + tarjeta final con CTA. */
+/** Qué te ofrezco: tarjetas de servicios del perfil + tarjeta final con CTA. */
 export function Services({ profiles, cta }: { profiles: Profiles; cta: Dictionary['servicesCta'] }) {
   const [profile, , changed] = useProfile()
   const p = profiles[profile]
@@ -84,6 +85,9 @@ export function Services({ profiles, cta }: { profiles: Profiles; cta: Dictionar
     <div key={profile} className={`svc-grid ${changed ? 'swap' : ''}`}>
       {p.services.map((s) => (
         <article key={s.title} className="card spot svc">
+          <div className="svc-img">
+            <Image src={s.image} alt="" width={1200} height={750} sizes="(max-width: 720px) 100vw, 400px" />
+          </div>
           <div className="ico">
             <Icon name={s.icon} />
           </div>

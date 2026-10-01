@@ -161,7 +161,7 @@ export function About({ t }: D) {
   )
 }
 
-/* ---------- Qué hago ---------- */
+/* ---------- Qué te ofrezco ---------- */
 export function WhatIDo({ t }: D) {
   return (
     <section className="sec" id="what">
@@ -176,12 +176,32 @@ export function WhatIDo({ t }: D) {
   )
 }
 
+/* ---------- Cómo trabajo ---------- */
+export function Process({ t }: D) {
+  return (
+    <section className="sec" id="process">
+      <div className="wrap">
+        <SecHead n="03" kicker={t.sections.process.kicker} title={t.sections.process.title} lead={t.sections.process.lead} />
+        <ol className="proc reveal">
+          {t.process.map((step, i) => (
+            <li key={step.title} className="card proc-step">
+              <span className="proc-n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{step.title}</h3>
+              <p>{step.desc}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )
+}
+
 /* ---------- Experiencia ---------- */
 export function Experience({ t }: D) {
   return (
     <section className="sec" id="experience">
       <div className="wrap">
-        <SecHead n="03" kicker={t.sections.experience.kicker} title={t.sections.experience.title} />
+        <SecHead n="04" kicker={t.sections.experience.kicker} title={t.sections.experience.title} />
         <div className="xp">
           {t.experience.map((e) => (
             <article key={e.role + e.period} className="xp-row">
@@ -199,7 +219,11 @@ export function Experience({ t }: D) {
                 <div className="xp-co">{e.company}</div>
               </div>
               <div>
-                <p>{e.desc}</p>
+                <ul className="xp-points">
+                  {e.points.map((pt) => (
+                    <li key={pt}>{pt}</li>
+                  ))}
+                </ul>
                 <Tags items={e.tags} />
               </div>
             </article>
@@ -215,7 +239,7 @@ export function Projects({ t }: D) {
   return (
     <section className="sec band" id="projects">
       <div className="wrap">
-        <SecHead n="04" kicker={t.sections.projects.kicker} title={t.sections.projects.title} lead={t.sections.projects.lead} />
+        <SecHead n="05" kicker={t.sections.projects.kicker} title={t.sections.projects.title} lead={t.sections.projects.lead} />
         <div className="bento">
           {PROJECTS.map((p, i) => {
             const x = t.projects[p.slug]
@@ -269,7 +293,7 @@ export function Frontend({ t }: D) {
   return (
     <section className="sec" id="frontend">
       <div className="wrap">
-        <SecHead n="05" kicker={t.sections.frontend.kicker} title={t.sections.frontend.title} />
+        <SecHead n="06" kicker={t.sections.frontend.kicker} title={t.sections.frontend.title} />
         <div className="fe-grid">
           {FRONTEND_PROJECTS.map((f) => {
             const x = t.frontendProjects[f.id]
@@ -309,7 +333,7 @@ export function Stack({ t }: D) {
   return (
     <section className="sec" id="stack">
       <div className="wrap">
-        <SecHead n="06" kicker={t.sections.stack.kicker} title={t.sections.stack.title} />
+        <SecHead n="07" kicker={t.sections.stack.kicker} title={t.sections.stack.title} />
         <div className="card stack reveal">
           {TECH_STACK.map((g) => {
             const x = t.stack.groups[g.id]
@@ -346,14 +370,14 @@ export function Education({ t }: D) {
   return (
     <section className="sec" id="education">
       <div className="wrap">
-        <SecHead n="07" kicker={t.sections.education.kicker} title={t.sections.education.title} />
+        <SecHead n="08" kicker={t.sections.education.kicker} title={t.sections.education.title} />
         <div className="edu-grid">
           <div className="card spot edu">
             <div className="eyebrow">{e.degreeLabel}</div>
             <h3 style={{ marginTop: 14 }}>{e.degree}</h3>
             <div className="place">{e.place}</div>
             <div className="per">{e.period}</div>
-            <span className="note">{e.note}</span>
+            {e.note && <span className="note">{e.note}</span>}
             <div className="blk">
               <div className="eyebrow">{e.certsLabel}</div>
               <ul className="list">
@@ -396,7 +420,7 @@ export function Contact({ t }: D) {
   return (
     <section className="sec" id="contact">
       <div className="wrap">
-        <SecHead n="08" kicker={t.sections.contact.kicker} title={t.sections.contact.title} />
+        <SecHead n="09" kicker={t.sections.contact.kicker} title={t.sections.contact.title} />
         <div className="contact">
           <div className="card spot c-left reveal">
             <h3>{t.contact.title}</h3>

@@ -4,7 +4,7 @@ import { CHAT, SECTIONS } from '@/content/shared'
 import Nav, { type NavLink } from '@/components/client/Nav'
 import Effects from '@/components/client/Effects'
 import ChatWidget from '@/components/client/ChatWidget'
-import { About, Contact, Education, Experience, Footer, Frontend, Hero, Projects, Stack, WhatIDo } from '@/components/sections'
+import { About, Contact, Education, Experience, Footer, Frontend, Hero, Process, Projects, Stack, WhatIDo } from '@/components/sections'
 
 export default async function Home({ params }: PageProps<'/[lang]'>) {
   const { lang } = await params
@@ -27,6 +27,7 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
         <Hero t={t} />
         <About t={t} />
         <WhatIDo t={t} />
+        <Process t={t} />
         <Experience t={t} />
         {SECTIONS.proyectosAutomatizacion && <Projects t={t} />}
         {SECTIONS.proyectosFrontend && <Frontend t={t} />}
