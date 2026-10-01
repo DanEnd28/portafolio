@@ -46,8 +46,8 @@ const es: Dictionary = {
     about: { kicker: 'Sobre mí', title: 'Sobre mí' },
     what: {
       kicker: 'Servicios',
-      title: 'Qué te ofrezco',
-      lead: 'Lo que tu negocio gana al trabajar conmigo.',
+      title: 'Qué ofrezco',
+      lead: 'Selecciona el servicio que se ajuste a las necesidades de tu empresa.',
     },
     process: {
       kicker: 'Proceso',
@@ -75,7 +75,7 @@ const es: Dictionary = {
         'Automatizo la atención, el agendamiento y las tareas repetitivas de tu negocio con agentes de IA que trabajan las 24 horas y no se caen cuando una API falla.',
       about: [
         'Ayudo a negocios a responder más rápido y a dejar de hacer a mano lo que una máquina puede hacer bien: atender mensajes, agendar citas, registrar clientes potenciales y avisar cuando algo falla.',
-        'Hoy lidero el departamento de desarrollo y creación de agentes de Lety.AI (Miami), con más de 300 workflows en producción para más de 250 cuentas de clientes. Eso es lo que te ofrezco: soluciones probadas con clientes reales, no demos.',
+        'Hoy lidero el departamento de desarrollo y creación de agentes de Lety.AI (Miami), con más de 300 workflows en producción para más de 250 cuentas de clientes. Eso es lo que ofrezco: soluciones probadas con clientes reales, no demos.',
         'Me encargo de todo: entiendo tu operación, diseño la solución, la construyo, la dejo documentada y la sigo cuidando después de entregarla.',
       ],
       chipsLabel: 'Rubros con los que he trabajado',
@@ -273,7 +273,7 @@ const es: Dictionary = {
     ],
   },
   contact: {
-    title: '¿Qué te gustaría automatizar?',
+    title: 'Hablemos de tu proyecto',
     text: 'Cuéntame tu caso y te respondo en menos de 12 horas con una propuesta para resolverlo.',
     upworkValue: 'Perfil freelance',
     form: {

@@ -47,7 +47,7 @@ const en: Dictionary = {
     what: {
       kicker: 'Services',
       title: 'What I offer',
-      lead: 'What your business gets from working with me.',
+      lead: 'Choose the service that fits your company’s needs.',
     },
     process: {
       kicker: 'Process',
@@ -75,7 +75,7 @@ const en: Dictionary = {
         'I automate your customer service, scheduling and repetitive tasks with AI agents that work around the clock and keep running when an API fails.',
       about: [
         'I help businesses reply faster and stop doing by hand what a machine can do well: answering messages, booking appointments, capturing leads and flagging problems before they grow.',
-        'Today I lead the agent development and creation department at Lety.AI (Miami), with 300+ workflows in production for 250+ client accounts. That is what I offer you: solutions proven with real customers, not demos.',
+        'Today I lead the agent development and creation department at Lety.AI (Miami), with 300+ workflows in production for 250+ client accounts. That is what I offer: solutions proven with real customers, not demos.',
         'I handle the whole process: I learn how your business runs, design the solution, build it, document it and keep looking after it once it’s delivered.',
       ],
       chipsLabel: 'Industries I’ve worked with',
@@ -273,7 +273,7 @@ const en: Dictionary = {
     ],
   },
   contact: {
-    title: 'What would you like to automate?',
+    title: 'Let’s talk about your project',
     text: 'Tell me about your case and I’ll reply within 12 hours with a proposal to solve it.',
     upworkValue: 'Freelance profile',
     form: {
